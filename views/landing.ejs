@@ -1,0 +1,32 @@
+<% include partials/header %>
+
+        <h1><i class="icon-football"></i></h1>
+        <h1>Welcome to Pickem</h1>
+        <% scores.games.forEach(function(score)
+        {
+            %>
+            <p>Home team is: <%= score.home %></p>
+            <p>Home score is: <%= score.homeScore %></p>
+            <p>Away team is: <%= score.away %></p>
+            <p>Away score is: <%= score.awayScore %></p>
+            <%
+                if(score.homeScore > score.awayScore)
+                {
+                    %>
+                    <p><%= score.home %> is the winning team</p>
+                    <%
+                }
+                else if(score.awayScore > score.homeScore)
+                {
+                    %>
+                    <p><%= score.away %> is the winning team</p>
+                    <%
+                }
+                else
+                {
+                    
+                }
+        }) %>
+        <a href="/pools"><i class="icon-list"></i> View Pools</a>
+
+<% include partials/footer %>

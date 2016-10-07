@@ -1,0 +1,20 @@
+<% include ../partials/header %>
+<h1><i class="icon-plus"></i> Create a new Pool</h1>
+<form action="/pools" method="POST">
+    <input type="text" name="name" placeholder="Pool Name" required></input>
+<% scores.games.forEach(function(score)
+{
+    // console.log(score);
+    %>
+    <fieldset>
+        <input type="hidden" name="<%= score.gameID %>[gameID]" value="<%= score.gameID %>">
+        <input type="radio" name="<%= score.gameID %>[winner]" value="<%= score.home %>"> <%= score.home %><br>
+        <input type="radio" name="<%= score.gameID %>[winner]" value="<%= score.away %>"> <%= score.away %><br>
+        <input type="number" name="<%= score.gameID %>[spread]" value="0"> Spread<br>
+        <input type="number" name="<%= score.gameID %>[toWin]" value="0"> To Win<br>
+    </fieldset>
+    <% }) %>
+    <button><i class="icon-plus"></i>Submit</button>
+</form>
+<a href="/pools"><i class="icon-list"></i> View Pools</a>
+<% include ../partials/footer %>

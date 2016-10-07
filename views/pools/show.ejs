@@ -1,0 +1,56 @@
+<% include ../partials/header %>
+
+<div class="container">
+  <div class="starter-template">
+      <h1><%= pool.name %></h1>
+
+<% var toWin = 0, totalPicks = 0; %>
+<% pool.picks.forEach(function(pick)
+{
+    toWin += Number(pick.toWin);
+    if(String(pick.winner) === "undefined")
+    {
+        // do nothing
+    }
+    else
+    {
+        totalPicks ++;
+    }
+}) %>
+
+<p class="lead"><i class="icon-dollar-1"></i> $<%=toWin%> on the line </p>
+<p class="lead"><i class="icon-ok"></i> <%=totalPicks%> total picks </p>
+
+<% pool.picks.forEach(function(pick)
+{ %>
+    <%if(String(pick.winner) === "undefined")
+    {
+        // do nothing
+    }
+    else
+    {
+        scores.games.forEach(function(game)
+        { %>
+            <% if(pick.gameID == game.gameID) 
+            {%>
+                <p>Game ID: <%= pick.gameID %></p>
+                <p>Home: <%= game.home %> Score: <%= game.homeScore %></p>
+                <p>Away: <%= game.away %> Score: <%= game.awayScore %></p>
+                <p>You picked: <%= pick.winner %></p>
+                <p>spread: <%= pick.spread %></p>
+                <p>toWin: <%= pick.toWin %></p>
+            <%  
+            } %> <!-- end if -->
+        <%
+        }) %> <!-- end for each game -->
+<%  } %>
+
+<%
+}) %> <!-- end for each pick -->
+
+<a href="/pools"><i class="icon-list"></i> View Pools</a>
+
+      </div><!-- custom styles -->
+</div><!-- /.container -->
+
+<% include ../partials/footer %>
