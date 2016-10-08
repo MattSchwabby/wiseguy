@@ -1,10 +1,9 @@
-<% include partials/header %>
+<% include ../partials/header %>
 
-<div class="container">
-    <div class="starter-template">
+
     <header class="jumbotron">
         <div class="container">
-            <h1>Pools</h1>
+            <h1>pools</h1>
             <p><a class="btn btn-primary btn-large" href="/pools/new"><i class="icon-plus"></i> Add A New Pool</a></p>
         </div>
     </header>
@@ -33,12 +32,12 @@
                 
                 <% winTotal += Number(pick.toWin) %>
             <% }) %> <!-- end for each pick -->
-            <div class="col-md-3 col-sm-6">
+            <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="thumbnail">
                     <div class="caption">
                         <h4><%= pool.name %></h4>
-                        <p><%= totalPicks %> total picks </p>
-                        <p>$<%= winTotal %> on the line </p>
+                        <p><i class="icon-ok"></i><%= totalPicks %> total picks </p>
+                        <p><i class="icon-dollar-1"></i> $<%= winTotal %> on the line </p>
                         <p>Created: <%= pool.createdAt %></p>
                     </div>
                     <p><a href="/pools/<%= pool._id %>" class="btn btn-primary"><i class="icon-list"></i> More Info</a></p>
@@ -47,7 +46,5 @@
             </div>
         <% }); %>
     </div>
-    </div>
-</div>
 
-<% include partials/footer %>
+<% include ../partials/footer %>

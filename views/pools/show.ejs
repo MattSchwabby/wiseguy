@@ -1,10 +1,9 @@
 <% include ../partials/header %>
 
-<div class="container">
-  <div class="starter-template">
       <h1><%= pool.name %></h1>
+      <p class="lead">Created by <strong><%=pool.author.name%></strong></p>
 
-<% var toWin = 0, totalPicks = 0; %>
+<% var toWin = 0, totalPicks = 0, winnings = 0, correctPicks = 0; %>
 <% pool.picks.forEach(function(pick)
 {
     toWin += Number(pick.toWin);
@@ -18,39 +17,145 @@
     }
 }) %>
 
-<p class="lead"><i class="icon-dollar-1"></i> $<%=toWin%> on the line </p>
-<p class="lead"><i class="icon-ok"></i> <%=totalPicks%> total picks </p>
-
-<% pool.picks.forEach(function(pick)
-{ %>
-    <%if(String(pick.winner) === "undefined")
-    {
-        // do nothing
-    }
-    else
-    {
-        scores.games.forEach(function(game)
-        { %>
-            <% if(pick.gameID == game.gameID) 
-            {%>
-                <p>Game ID: <%= pick.gameID %></p>
-                <p>Home: <%= game.home %> Score: <%= game.homeScore %></p>
-                <p>Away: <%= game.away %> Score: <%= game.awayScore %></p>
-                <p>You picked: <%= pick.winner %></p>
-                <p>spread: <%= pick.spread %></p>
-                <p>toWin: <%= pick.toWin %></p>
-            <%  
-            } %> <!-- end if -->
-        <%
-        }) %> <!-- end for each game -->
-<%  } %>
-
 <%
-}) %> <!-- end for each pick -->
+// CALCULATE CURRENT WINNINGS AND CORRECT PICKS
+var winnings = calculateWinnings(pool, scores);
 
-<a href="/pools"><i class="icon-list"></i> View Pools</a>
+%>
+
+<p class="lead"><i class="icon-dollar-1"></i> $<%=toWin%> on the line | $<%=winnings.money%> winnings </p>
+<p class="lead"><i class="icon-ok"></i> <%=totalPicks%> total picks | <%=winnings.picks%> correct picks </p>
+<div>
+    <div class="row">
+        <% pool.picks.forEach(function(pick)
+        { %>
+            <%if(String(pick.winner) === "undefined")
+            {
+                // do nothing
+            }
+            else
+            {
+                scores.games.forEach(function(score)
+                { %>
+                    <% if(pick.gameID == score.gameID) 
+                    {%>
+                    
+                        <%
+                        var winner = "";
+                        var loser = "";
+                        var resultClass = "";
+                        if(score.homeScore > score.awayScore)
+                        {
+                            winner = String(score.home);
+                            loser = String(score.away);
+                        }
+                        else if(score.awayScore > score.homeScore)
+                        {
+                            winner = String(score.away);
+                            loser = String(score.home);
+                        }
+                        else
+                        {
+                            resultClass = "";
+                        }
+                        %>
+                        
+                        <%
+                            if(String(pick.winner) === winner)
+                            {
+                                resultClass = "winning";
+                            }
+                            else if(String(pick.winner) === loser)
+                            {
+                                resultClass = "losing";
+                            }
+                            else
+                            {
+                                resultClass = "";
+                            }
+                        %>
+                    
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="row scoreCard <%=resultClass%>">
+                                <div class="home">
+                                    <img class="homeIcon" src="http://i.nflcdn.com/static/site/7.4/img/teams/<%= score.home %>/<%= score.home %>_logo-80x90.gif">
+                                    <p class="homeScore"><%= score.homeScore %></p>
+                                </div>
+                                <div class="away">
+                                    <img class="awayIcon" src="http://i.nflcdn.com/static/site/7.4/img/teams/<%= score.away %>/<%= score.away %>_logo-80x90.gif">
+                                    <p class="awayScore"> <%= score.awayScore %></p>
+                                </div>
+                                <div class="picks">
+                                    <p>You picked:</p><img class="pickIcon" src="http://i.nflcdn.com/static/site/7.4/img/teams/<%= pick.winner %>/<%= pick.winner %>_logo-80x90.gif">
+                                    <p>Spread: <%= pick.spread %></p>
+                                    <p>toWin: $<%= pick.toWin %></p>
+                                </div>
+                            </div>
+                        </div>
+                    <%  
+                    } %> <!-- end if -->
+                <%
+                }) %> <!-- end for each game -->
+        <%  } %>
+        
+        <%
+        }) %> <!-- end for each pick -->
+    </div>
+</div>
+
+<a href="/pools" class="btn btn-primary" id="pool-button"><i class="icon-list"></i> View Pools</a>
 
       </div><!-- custom styles -->
 </div><!-- /.container -->
+
+<%
+function calculateWinnings(pool, scores)
+{
+    var winnings = {};
+    var money = 0;
+    var picks = 0;
+    pool.picks.forEach(function(pick)
+    {
+        if(String(pick.winner) === "undefined")
+        {
+            // do nothing
+        }
+        else
+        {
+            scores.games.forEach(function(score)
+            {
+                if(pick.gameID == score.gameID)
+                {
+                    var winner = "";
+                    var loser = "";
+                    if(score.homeScore > score.awayScore)
+                    {
+                        winner = String(score.home);
+                        loser = String(score.away);
+                    }
+                    else if(score.awayScore > score.homeScore)
+                    {
+                        winner = String(score.away);
+                        loser = String(score.home);
+                    }
+                    if(String(pick.winner) === winner)
+                    {
+                        money += Number(pick.toWin);
+                        picks += 1;
+                    }
+                    else
+                    {
+                        money += 0;
+                        picks += 0;
+                    }
+                    winnings.money = money;
+                    winnings.picks = picks;
+                }
+            });    
+        }
+    });
+    return winnings;
+}
+%>
 
 <% include ../partials/footer %>

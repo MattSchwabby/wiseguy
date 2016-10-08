@@ -1,32 +1,58 @@
 <% include partials/header %>
-
-        <h1><i class="icon-football"></i></h1>
-        <h1>Welcome to Pickem</h1>
-        <% scores.games.forEach(function(score)
-        {
-            %>
-            <p>Home team is: <%= score.home %></p>
-            <p>Home score is: <%= score.homeScore %></p>
-            <p>Away team is: <%= score.away %></p>
-            <p>Away score is: <%= score.awayScore %></p>
+<header class="jumbotron landing">
+        <div class="container">
+            <h1><i class="icon-football"></i></h1>
+            <h1 id="headline">wiseguy</h1>
+            <br>
+            <p class="lead">Track all your picks in one place, every week.</p>
+        </div> <!-- end container -->
+    </header>
+    <div class="text-left">
+        <p class="lead pull-xs-left">Current scores</p>
+    </div>
+            
+    <!--<div class="row text-center" style="display:flex; flex-wrap: wrap;">-->
+    <div>
+        <div class="row">
+            <% scores.games.forEach(function(score)
+            {
+                %>
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                   <div class="row scoreCard">
+                        <div class="home">
+                            <img class="homeIcon" src="http://i.nflcdn.com/static/site/7.4/img/teams/<%= score.home %>/<%= score.home %>_logo-80x90.gif">
+                            <p class="homeScore"><%= score.homeScore %></p>
+                        </div>
+                        <div class="away">
+                            <img class="awayIcon" src="http://i.nflcdn.com/static/site/7.4/img/teams/<%= score.away %>/<%= score.away %>_logo-80x90.gif">
+                            <p class="awayScore"> <%= score.awayScore %></p>
+                        </div>
+                    </div>
+    
+                            <%
+                                if(score.homeScore > score.awayScore)
+                                {
+                                    %>
+                                    
+                                    <%
+                                }
+                                else if(score.awayScore > score.homeScore)
+                                {
+                                    %>
+                                    <!-- maybe change the color of the winning team's background? -->
+                                    <%
+                                }
+                                else
+                                {
+                                    
+                                }
+                                %>
+                </div><!-- end row -->
             <%
-                if(score.homeScore > score.awayScore)
-                {
-                    %>
-                    <p><%= score.home %> is the winning team</p>
-                    <%
-                }
-                else if(score.awayScore > score.homeScore)
-                {
-                    %>
-                    <p><%= score.away %> is the winning team</p>
-                    <%
-                }
-                else
-                {
-                    
-                }
-        }) %>
-        <a href="/pools"><i class="icon-list"></i> View Pools</a>
-
+            }) %>
+        </div>        
+    </div>
+    <div class="col-xs-12">
+        <a href="/pools" class="btn btn-primary" id="pool-button"><i class="icon-list"></i> View Pools</a>
+    </div>
 <% include partials/footer %>

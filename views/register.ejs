@@ -1,0 +1,54 @@
+<% include ./partials/header %>
+
+<div class="row text-left">
+    <form class="form-horizontal" action="/register" method="POST">
+
+        <legend>Sign up for Wiseguy</legend>
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="username">E-mail address</label>
+                <div class="col-md-4">
+                    <input id="textinput" class="form-control input-md" required type="text" name="username" placeholder="Please enter your email address"></input>
+                    <span class="help-block">Your e-mail address will be used for login and account management purposes only. This will not be visible to others who view your profile or pools. </span>  
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="confirmEmail">Confirm e-mail</label>
+                <div class="col-md-4">
+                    <input id="textinput" class="form-control input-md" required type="text" name="confirmEmail" placeholder="Confirm your e-mail address"></input>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="name">Your name</label>
+                <div class="col-md-4">
+                    <input id="textinput" class="form-control input-md" type="text" name="name" placeholder="Please enter your name"></input>
+                    <span class="help-block">You may enter your full name or a username. This will be visible to others who view your pools or user profile. </span>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="password">Password</label>
+                <div class="col-md-4">
+                    <input id="textinput" class="form-control input-md" type="password" name="password" placeholder="Password"></input>
+                    <span class="help-block">Be sure to enter a password you will easily remember. I have not added reset password functionality yet.</span>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="confirmPassword">Confirm Password</label>
+                <div class="col-md-4">
+                    <input id="textinput" class="form-control input-md" type="password" name="confirmPassword" placeholder="Confirm password"></input>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-4">
+                    <button type="submit" class="btn btn-primary btn-block"><i class="icon-user-plus"></i> Sign Up</button>
+                </div>
+            </div>
+    </form>
+
+</div>
+
+<% include ./partials/footer %>

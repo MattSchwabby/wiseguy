@@ -3,6 +3,16 @@ var mongoose = require("mongoose");
 //Pool schema
 var poolSchema = new mongoose.Schema({
     name: String,
+    author:
+    {
+      id:
+      {
+         type: mongoose.Schema.Types.ObjectId,
+         ref: "User"
+      },
+      username: String,
+      name: String
+    },
     games:
     [
         {
@@ -18,7 +28,14 @@ var poolSchema = new mongoose.Schema({
             spread: Number,
             toWin: Number
         }    
-    ]
+    ],
+   comments:
+   [
+      {
+         type: mongoose.Schema.Types.ObjectId,
+         ref: "Comment"
+      }
+   ]
 },
 {
     timestamps: true
