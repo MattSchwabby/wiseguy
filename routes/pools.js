@@ -131,7 +131,25 @@ router.get("/:id/edit", checkPoolOwnership, function(req, res)
 {
     Pool.findById(req.params.id, function(err, foundPool)
     {
-        res.render("pools/edit", {pool: foundPool});
+
+        var gameID = foundPool.games;
+        Scores.findById(gameID, function(err, foundScores)
+        {
+            if(err)
+            {
+                console.log("ERROR FINDING SCORES WHEN ROUTING TO THE EDIT POOL PAGE");
+                console.log(err);
+                res.redirect("/pools");
+            }
+            else
+            {
+                // console.log("GAMES ID IS :");
+                // console.log(gameID);
+                // console.log("FOUND SCORES ARE");
+                // console.log(foundScores.games);
+                res.render("pools/edit", {pool: foundPool, scores: foundScores, currentUser: req.user});
+            }
+        });
     });
 });
 
@@ -139,21 +157,30 @@ router.get("/:id/edit", checkPoolOwnership, function(req, res)
 // UPDATE POOL ROUTE
 router.put("/:id", checkPoolOwnership, function(req, res)
 {
-    // find and upate correct campground
-    Pool.findByIdAndUpdate(req.params.id, req.body.pool, function(err, udatedPool)
+    poolArray(req.body, function(parsedPool)
     {
-        if(err)
+        if(parsedPool)
         {
-            console.log("ERROR UPDATING POOL.");
-            console.log(err);
-            res.redirect("/pools");
+            Pool.findById(req.params.id, function(err,pool)
+            {
+                if(err)
+                {
+                    console.log("ERROR FINDING POOL TO UPDATE.");
+                }
+                else
+                {
+                    pool.picks = parsedPool.picks;
+                    pool.picks.name = parsedPool.name;
+                    pool.save();
+                }
+            });
         }
         else
         {
-            res.redirect("/pools/" + req.params.id);
+            // do nothing?
         }
     });
-    //redirect to the show page
+    res.redirect("/pools/" + req.params.id);
 });
 
 
@@ -166,11 +193,11 @@ router.delete("/:id", checkPoolOwnership, function(req, res)
         {
             console.log("ERROR DELETING POOL");
             console.log(err);
-            res.redirect("/pools", {currentUser: req.user});
+            res.redirect("/pools");
         }
         else
         {
-            res.redirect("/pools", {currentUser: req.user});
+            res.redirect("/pools");
         }
     });
 });

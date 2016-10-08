@@ -16,8 +16,6 @@ var express     = require("express"),
 var poolRoutes          = require("./routes/pools"),
     indexRoutes         = require("./routes/index");
     
-mongoose.connect("mongodb://localhost/pickem");
-    
 // const util = require('util');
     
 // Schedule rule to update games in DB
@@ -48,6 +46,8 @@ setInterval(function() {
 //   updateScore();
 // });
 
+mongoose.connect("mongodb://localhost/pickem");
+
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(methodOverride("_method"));
@@ -70,15 +70,14 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.use("/", indexRoutes);
-app.use("/pools", poolRoutes);
-
 app.use(function(req, res, next)
 {
    res.locals.currentUser = req.user;
    next();
 });
 
+app.use("/", indexRoutes);
+app.use("/pools", poolRoutes);
 
 app.listen(process.env.PORT, process.env.IP, function()
 {

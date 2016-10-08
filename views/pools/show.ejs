@@ -103,7 +103,16 @@ var winnings = calculateWinnings(pool, scores);
     </div>
 </div>
 
-<a href="/pools" class="btn btn-primary" id="pool-button"><i class="icon-list"></i> View Pools</a>
+<% if(currentUser && pool.author.id.equals(currentUser._id))
+{ %>
+
+<div class="row editButtons">
+    <div class="col-xs-12">
+        <a id="pool-button" class="btn btn-warning" href="/pools/<%=pool._id%>/edit">Edit Pool</a>
+    </div>
+
+</div>
+<% } %>
 
       </div><!-- custom styles -->
 </div><!-- /.container -->

@@ -26,9 +26,16 @@
 						<li><a href="/pools"><i class="icon-list"></i> pools</a></li>
 					</ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/login"><i class="icon-users"></i> log in</a></li>
-                    <li><a href="/register"><i class="icon-user-plus"></i> sign Up</a></li>
-                    <li><a href="/logout"><i class="icon-user-times"></i> log out</a></li>
+                    <% if(!currentUser)
+                    { %>
+                        <li><a href="/login"><i class="icon-users"></i> log in</a></li>
+                        <li><a href="/register"><i class="icon-user-plus"></i> sign Up</a></li>
+                    <% }
+                    else
+                    { %>
+                        <li><a href="#">Signed in as: <%= currentUser.username %></a></li>
+                        <li><a href="/logout"><i class="icon-user-times"></i> log out</a></li>
+                    <% } %>
                 </ul>
             </div>
         </div>
