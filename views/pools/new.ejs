@@ -1,20 +1,41 @@
 <% include ../partials/header %>
+
 <h1><i class="icon-plus"></i> Create a new Pool</h1>
+<p class="lead">Pick who you think is going to win each game, and then set your spread and amount to win. <br> Each field is optional, so you don't need to pick every game, and you don't need to set a spread or amount to win.<br>Good luck!</p>
+
+
 <form action="/pools" method="POST">
+    <label class="lead control-label" id="poolName" for="name">Pool Name</label>
     <input type="text" name="name" placeholder="Pool Name" required></input>
+    
+<div class="row">
 <% scores.games.forEach(function(score)
 {
     // console.log(score);
     %>
-    <fieldset>
-        <input type="hidden" name="<%= score.gameID %>[gameID]" value="<%= score.gameID %>">
-        <input type="radio" name="<%= score.gameID %>[winner]" value="<%= score.home %>"> <%= score.home %><br>
-        <input type="radio" name="<%= score.gameID %>[winner]" value="<%= score.away %>"> <%= score.away %><br>
-        <input type="number" name="<%= score.gameID %>[spread]" value="0"> Spread<br>
-        <input type="number" name="<%= score.gameID %>[toWin]" value="0"> To Win<br>
-    </fieldset>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="row scoreCard">
+            <fieldset>
+                <input type="hidden" name="<%= score.gameID %>[gameID]" value="<%= score.gameID %>">
+                <p>Pick the winner</p>
+                <div class="home">
+                    <input type="radio" name="<%= score.gameID %>[winner]" value="<%= score.home %>"><img class="homeIcon" src="http://i.nflcdn.com/static/site/7.4/img/teams/<%= score.home %>/<%= score.home %>_logo-80x90.gif"><br>
+                </div>
+                <div class="away">
+                    <input type="radio" name="<%= score.gameID %>[winner]" value="<%= score.away %>"> <img class="homeIcon" src="http://i.nflcdn.com/static/site/7.4/img/teams/<%= score.away %>/<%= score.away %>_logo-80x90.gif"><br>
+                </div>
+                <div class="picks">
+                    Spread <input type="number" step="any" name="<%= score.gameID %>[spread]" value="0"><br>
+                    Amount to win: $<input type="number" step="any" name="<%= score.gameID %>[toWin]" value="0"><br>
+                </div>
+            </fieldset>
+        </div>
+    </div><!-- end col -->
     <% }) %>
-    <button><i class="icon-plus"></i>Submit</button>
+</div> <!-- end row -->
+<div>
+    <button class ="btn btn-primary" id="pool-button"><i class="icon-plus"></i>Submit</button>
+</div>
 </form>
-<a href="/pools"><i class="icon-list"></i> View Pools</a>
+
 <% include ../partials/footer %>
