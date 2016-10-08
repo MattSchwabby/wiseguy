@@ -38,20 +38,26 @@ router.get("/register", function(req, res)
 //handle sign up logic
 router.post("/register", function(req, res)
 {
-    var newUser = new User({username: req.body.username, name: req.body.name});
-    User.register(newUser, req.body.password, function(err, user)
+    if (req.body.username === req.body.confirmEmail && req.body.password === req.body.confirmPassword)
     {
-        console.log(req.body);
-        if(err)
+        var newUser = new User({username: req.body.username, name: req.body.name});
+        User.register(newUser, req.body.password, function(err, user)
         {
-            console.log(err);
-            return res.render("/register");
-        }
-        passport.authenticate("local")(req, res, function()
-        {
-            res.redirect("/pools");
+            if(err)
+            {
+                console.log(err);
+                return res.render("register");
+            }
+            passport.authenticate("local")(req, res, function()
+            {
+                res.redirect("/pools");
+            });
         });
-    });
+    }
+    else
+    {
+        return res.render("register");
+    }
 });
 
 // show login form
