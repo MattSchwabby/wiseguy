@@ -3,12 +3,15 @@ var mongoose = require("mongoose"),
     Scores = require("./models/scores"),
     Pool = require("./models/pool");
 
-var updateUserStats = function(user, cb)
+var calculateUserStats = function(user, cb)
 {
-    var correctPicks = 0;
-    var correctSpreadPicks = 0;
-    var totalPicks = 0; 
-    var totalPools = 0;
+    var stats=
+    {
+        correctPicks: 0,
+        correctSpreadPicks: 0,
+        totalPicks: 0,
+        totalPools: 0
+    };
     User.findById(user, function(error, foundUser)
     {
         if(error)
@@ -30,7 +33,7 @@ var updateUserStats = function(user, cb)
                     foundPools.forEach(function(pool)
                     {
                         // update total pool count
-                        totalPools ++;
+                        stats.totalPools++;
                         Scores.findById(pool.games, function(error, foundScores)
                         {
                             if(error)
@@ -49,82 +52,84 @@ var updateUserStats = function(user, cb)
                                     }
                                     else
                                     {
-                                        totalPicks++;
+                                        stats.totalPicks++;
                                         foundScores.games.forEach(function(score)
                                         {
                                             if(score.gameID == pick.gameID)
                                             {
-                                                var winner = "";
-                                                var loser = "";
                                                 if(score.homeScore > score.awayScore)
                                                 {
+                                                    if(String(pick.winner) === score.home)
+                                                    {
+                                                        stats.correctPicks++;
+                                                    }
                                                     if(pick.spread && pick.winner == String(score.home))
                                                     {
                                                         if((score.homeScore + pick.spread) > score.awayScore)
                                                         {
-                                                            correctSpreadPicks++;
-                                                            correctPicks++;
-                                                            winner = String(score.home);
-                                                            loser = String(score.away);
+                                                            stats.correctSpreadPicks++;
                                                         }
                                                         else
                                                         {
-                                                            loser = String(score.home);
-                                                            winner = String(score.away);
                                                         }
                                                     }
                                                     else
                                                     {
-                                                        correctPicks++;
-                                                        winner = String(score.home);
-                                                        loser = String(score.away);
                                                     }
                                                 }
                                                 else if(score.awayScore > score.homeScore)
                                                 {
+                                                    if(String(pick.winner) === score.away)
+                                                    {
+                                                        stats.correctPicks++;
+                                                    }
                                                     if(pick.spread && pick.winner == String(score.away))
                                                     {
                                                         if((score.awayScore + pick.spread) > score.homeScore)
                                                         {
-                                                            correctSpreadPicks++;
-                                                            correctPicks++;
-                                                            winner = String(score.away);
-                                                            loser = String(score.home);
+                                                            stats.correctSpreadPicks++;
                                                         }
                                                         else
                                                         {
-                                                            winner = String(score.home);
-                                                            loser = String(score.away);
                                                         }
                                                     }
                                                     else
                                                     {
-                                                        correctPicks++;
-                                                        winner = String(score.away);
-                                                        loser = String(score.home);
                                                     }
                                                 }
                                             }
+                                         
                                         });
-                                        // update correct pick and spread pick count
-
                                     }
                                 });
                             }
                         });
                     });
+                    cb(stats);
                 }
             });
         }
-        console.log("Correct picks is " + correctPicks);
-        console.log("Correct spread picks is " + correctSpreadPicks)
-        user.stats.correctPicks = correctPicks;
-        user.stats.correctSpreadPicks = correctSpreadPicks;
-        user.stats.totalPicks = totalPicks;
-        user.stats.totalPools = totalPools;
-        user.save();
-        cb(user);
+    });
+};
+
+function saveUserStats(user, cb)
+{
+    calculateUserStats(user, function(stats)
+    {
+        User.findById(user, function(error, foundUser)
+        {
+            if(error)
+            {
+                
+            }
+            else
+            {
+                foundUser.stats = stats;
+                foundUser.save();
+                cb(foundUser);
+            }
+        });
     });
 }
 
-module.exports = updateUserStats;
+module.exports = saveUserStats;

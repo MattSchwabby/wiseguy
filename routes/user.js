@@ -10,21 +10,29 @@ var Comment = require("../models/comment");
 
 router.get("/:id", isLoggedIn, function(req, res)
 {
-    calculateUserStats(req.user._id, function()
+    calculateUserStats(req.user._id, function(returnedUser)
     {
-        User.findById(req.user._id, function(error, foundUser)
+        if(returnedUser)
         {
-            if(error)
+            User.findById(req.user._id, function(error, foundUser)
             {
-                console.log("ERROR RETRIEVING A USER");
-                console.log(error);
-            }
-            else
-            {
-                res.render("user/show", {user: foundUser, currentUser: req.user});
-            }
-        });
-    })
+                if(error)
+                {
+                    console.log("ERROR RETRIEVING A USER");
+                    console.log(error);
+                }
+                else
+                {
+                    res.render("user/show", {user: foundUser, currentUser: req.user});
+                }
+            });
+        }
+        else
+        {
+            console.log("ERROR SAVING USER STATS");
+            res.redirect("/pools");
+        }
+    });
 });
 
 // Middleware for checking if a user is logged in
