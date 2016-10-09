@@ -1,32 +1,68 @@
 <% include ../partials/header %>
+<div class="row text-left"></div>
+    <div class="col-xs-4 col-xs-offset-5 text-left">
+        <p class="lead">User Name: <%=user.name%></p>
+        <%
+        if(user.stats.totalPicks)
+        { %>
 
-<h1><%= user.username %></h1>
-<p class="lead"><%=user.name%></p
-<%
-if(user.stats.totalPicks)
-{ %>
-    <p>Total picks: <%=user.stats.totalPicks%></p>
-    <p>Lifetime correct picks: <%=user.stats.correctPicks%></p>
-    <p>Lifetime correct picks against the spread: <%=user.stats.correctSpreadPicks%></p>
-    <p>Participated in <%=user.stats.totalPools%> pools</p>
-<%
-} 
-else
-{ %>
-    <p><%=user.username%> has not made any picks.</p>
-<%
-} %>
+            <p>Total picks: <%=user.stats.totalPicks%></p>
+            <p>Lifetime correct picks: <%=user.stats.correctPicks%></p>
+            <p>Lifetime correct picks against the spread: <%=user.stats.correctSpreadPicks%></p>
+            <p>Participated in <%=user.stats.totalPools%> pools</p>
 
+        <%
+        } 
+        else
+        { %>
+            <p><%=user.username%> has not made any picks.</p>
+        <%
+        } %>
+        <br>
+        <%
+        if(user.friends.count>1)
+        { %>
+            
+            <p>Total friends: <%=user.friends.count%></p>
+            <%
+            user.friends.forEach(function(friend)
+            { %>
+                <p>friend.username</p>
+            <%
+            })
+            
+        }%>
+    </div>
+</div>
+<div class="row">
+    <%
+    user.friends.forEach(function(friend)
+    {
+        var areFriends = false;
+        if(friend.id === user.id)
+        { %>
+            <div class="col-xs-12 text-center">
+                <a class="btn btn-primary" id="pool-button" href="#">Unfollow <%=user.name%></a>
+            </div>
+            <%
+            areFriends = true;
+        }
+        else if(!areFriends)
+        { %>
+            <div class="col-xs-12 text-center">
+                <a class="btn btn-primary" id="pool-button" href="#">Follow <%=user.name%></a>
+            </div>
+            <%
+        }
+    }) %>
 
-<br>
-<p>Total friends: <%=user.friends.count%></p>
-<%
-user.friends.forEach(function(friend)
-{ %>
-    <p>friend.username</p>
-<%
-}) %>
-
-%>
+    
+    <% if(user.id === currentUser.id)
+    { %>
+        <div class="col-xs-12 text-center">
+            <a class="btn btn-primary" id="pool-button" href="#">Edit profile</a>
+        </div>
+<%  } %>
+</div><!-- end row -->
 
 <% include ../partials/footer %>
