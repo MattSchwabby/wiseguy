@@ -1,0 +1,32 @@
+<% include ../partials/header %>
+
+<h1><%= user.username %></h1>
+<p class="lead"><%=user.name%></p
+<%
+if(user.stats.totalPicks)
+{ %>
+    <p>Total picks: <%=user.stats.totalPicks%></p>
+    <p>Lifetime correct picks: <%=user.stats.correctPicks%></p>
+    <p>Lifetime correct picks against the spread: <%=user.stats.correctSpreadPicks%></p>
+    <p>Participated in <%=user.stats.totalPools%> pools</p>
+<%
+} 
+else
+{ %>
+    <p><%=user.username%> has not made any picks.</p>
+<%
+} %>
+
+
+<br>
+<p>Total friends: <%=user.friends.count%></p>
+<%
+user.friends.forEach(function(friend)
+{ %>
+    <p>friend.username</p>
+<%
+}) %>
+
+%>
+
+<% include ../partials/footer %>

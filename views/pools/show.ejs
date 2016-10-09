@@ -6,7 +6,10 @@
 <% var toWin = 0, totalPicks = 0, winnings = 0, correctPicks = 0; %>
 <% pool.picks.forEach(function(pick)
 {
-    toWin += Number(pick.toWin);
+    if(pick.toWin)
+    {
+        toWin += Number(pick.toWin);
+    }
     if(String(pick.winner) === "undefined")
     {
         // do nothing
@@ -17,13 +20,19 @@
     }
 }) %>
 
+
+
 <%
 // CALCULATE CURRENT WINNINGS AND CORRECT PICKS
 var winnings = calculateWinnings(pool, scores);
 
 %>
 
-<p class="lead"><i class="icon-dollar-1"></i> $<%=toWin%> on the line | $<%=winnings.money%> winnings </p>
+%>
+<%if(toWin > 0)
+{ %>
+    <p class="lead"><i class="icon-dollar-1"></i> $<%=toWin%> on the line | $<%=winnings.money%> winnings </p>
+<% } %>
 <p class="lead"><i class="icon-ok"></i> <%=totalPicks%> total picks | <%=winnings.picks%> correct picks </p>
 <div>
     <div class="row">
@@ -46,13 +55,45 @@ var winnings = calculateWinnings(pool, scores);
                         var resultClass = "";
                         if(score.homeScore > score.awayScore)
                         {
-                            winner = String(score.home);
-                            loser = String(score.away);
+                            if(pick.spread && pick.winner == String(score.home))
+                            {
+                                if((score.homeScore + pick.spread) > score.awayScore)
+                                {
+                                    winner = String(score.home);
+                                    loser = String(score.away);
+                                }
+                                else
+                                {
+                                    loser = String(score.home);
+                                    winner = String(score.away);
+                                }
+                            }
+                            else
+                            {
+                                winner = String(score.home);
+                                loser = String(score.away);
+                            }
                         }
                         else if(score.awayScore > score.homeScore)
                         {
-                            winner = String(score.away);
-                            loser = String(score.home);
+                            if(pick.spread && pick.winner == String(score.away))
+                            {
+                                if((score.awayScore + pick.spread) > score.homeScore)
+                                {
+                                    winner = String(score.away);
+                                    loser = String(score.home);
+                                }
+                                else
+                                {
+                                    winner = String(score.home);
+                                    loser = String(score.away);
+                                }
+                            }
+                            else
+                            {
+                                winner = String(score.away);
+                                loser = String(score.home);
+                            }
                         }
                         else
                         {
@@ -75,7 +116,7 @@ var winnings = calculateWinnings(pool, scores);
                             }
                         %>
                     
-                        <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="col-md-3 col-sm-4 col-xs-12">
                             <div class="row scoreCard <%=resultClass%>">
                                 <div class="home">
                                     <img class="homeIcon" src="http://i.nflcdn.com/static/site/7.4/img/teams/<%= score.home %>/<%= score.home %>_logo-80x90.gif">
@@ -87,8 +128,27 @@ var winnings = calculateWinnings(pool, scores);
                                 </div>
                                 <div class="picks">
                                     <p>You picked:</p><img class="pickIcon" src="http://i.nflcdn.com/static/site/7.4/img/teams/<%= pick.winner %>/<%= pick.winner %>_logo-80x90.gif">
-                                    <p>Spread: <%= pick.spread %></p>
+                                    <%
+                                    if(pick.spread)
+                                    { %>
+                                        <p>Spread: <%= pick.spread %></p>
+                                <%  }
+                                    else
+                                    { %>
+                                        <p> </p> <!-- fix bug where top row was pushing down elements below it too far. There should be a better way to fix this -->
+                                        <br>
+                                <%  }
+                                    if(pick.toWin)
+                                    { %>
                                     <p>toWin: $<%= pick.toWin %></p>
+                                <%  }
+                                    else
+                                    { %>
+                                        <p> </p> <!-- fix bug where top row was pushing down elements below it too far. There should be a better way to fix this -->
+                                        <br>
+                                <%  }
+                                %>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -139,13 +199,45 @@ function calculateWinnings(pool, scores)
                     var loser = "";
                     if(score.homeScore > score.awayScore)
                     {
-                        winner = String(score.home);
-                        loser = String(score.away);
+                        if(pick.spread && pick.winner == String(score.home))
+                            {
+                                if((score.homeScore + pick.spread) > score.awayScore)
+                                {
+                                    winner = String(score.home);
+                                    loser = String(score.away);
+                                }
+                                else
+                                {
+                                    loser = String(score.home);
+                                    winner = String(score.away);
+                                }
+                            }
+                        else
+                        {
+                            winner = String(score.home);
+                            loser = String(score.away);
+                        }
                     }
                     else if(score.awayScore > score.homeScore)
                     {
-                        winner = String(score.away);
-                        loser = String(score.home);
+                        if(pick.spread && pick.winner == String(score.away))
+                            {
+                                if((score.awayScore + pick.spread) > score.homeScore)
+                                {
+                                    winner = String(score.away);
+                                    loser = String(score.home);
+                                }
+                                else
+                                {
+                                    winner = String(score.home);
+                                    loser = String(score.away);
+                                }
+                            }
+                        else
+                        {
+                            winner = String(score.away);
+                            loser = String(score.home);
+                        }
                     }
                     if(String(pick.winner) === winner)
                     {

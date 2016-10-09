@@ -11,6 +11,8 @@
 <div class="row">
 <% scores.games.forEach(function(score)
 {
+    if(score.homeScore < 1 && score.awayScore < 1)
+    {
     // console.log(score);
     %>
     <div class="col-md-3 col-sm-6 col-xs-12">
@@ -31,6 +33,7 @@
             </fieldset>
         </div>
     </div><!-- end col -->
+       <% } %>
     <% }) %>
 </div> <!-- end row -->
 <div>

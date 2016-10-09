@@ -8,12 +8,13 @@ var express     = require("express"),
     Scores = require("./models/scores"),
     Pool = require("./models/pool"),
     User = require("./models/user"),
-    populateScore = require('./nfl'),
-    updateScore = require('./updateNFL'),
+    refreshNFLGames = require('./refreshNFLGames'),
+    updateNFLScores = require('./updateNFLScores'),
     schedule = require('node-schedule');
     
 // Require Routes
 var poolRoutes          = require("./routes/pools"),
+    userRoutes          = require("./routes/user"),
     indexRoutes         = require("./routes/index");
     
 // const util = require('util');
@@ -27,14 +28,14 @@ weeklyRule.minute = 0;
 // Scheduled task to populate a new set of NFL scores each week
 var weeklyJob = schedule.scheduleJob(weeklyRule, function()
 {
-    populateScore();
+    refreshNFLGames();
 });
 
 
 // Schedule rule to update game scores every five minutes
 var minutes = 1, the_interval = minutes * 60 * 1000;
 setInterval(function() {
-    updateScore();
+    updateNFLScores();
 }, the_interval);
  
 
@@ -78,6 +79,7 @@ app.use(function(req, res, next)
 
 app.use("/", indexRoutes);
 app.use("/pools", poolRoutes);
+app.use("/users", userRoutes);
 
 app.listen(process.env.PORT, process.env.IP, function()
 {

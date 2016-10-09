@@ -61,6 +61,11 @@ a
   padding-bottom: 15px;
 }
 
+#currentUser
+{
+  font-size: .8em;
+}
+
 .jumbotron
 {
   background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('/img/banner.jpg');
@@ -128,7 +133,7 @@ a
 
 .winning
 {
-  background-color: #003300;
+  background-color: #006622;
   color: white;
 }
 
@@ -254,7 +259,7 @@ footer i
 
 .footer i
 {
-  font-size: 50px;
+  font-size: 40px;
 }
 
 .navbar-inverse .navbar-brand 

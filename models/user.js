@@ -3,7 +3,8 @@ var passportLocalMongoose = require("passport-local-mongoose");
 
 
 //User Schema - email, name
-var UserSchema = new mongoose.Schema({
+var UserSchema = new mongoose.Schema(
+{
     username: String,
     name: String,
     password: String,
@@ -20,7 +21,19 @@ var UserSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "User"
         }  
-    ]
+    ],
+    settings:
+    {
+        useSpread: Boolean,
+        useToWin: Boolean
+    },
+    stats:
+    {
+        correctPicks: Number,
+        correctSpreadPicks: Number,
+        totalPicks: Number,
+        totalPools: Number
+    }
 },
 {
     timestamps: true
