@@ -1,7 +1,31 @@
 <% include ../partials/header %>
+
 <div class="row text-left"></div>
-    <div class="col-xs-4 col-xs-offset-5 text-left">
+    <div class="col-sm-4 col-sm-offset-4 text-left">
         <p class="lead">User Name: <%=user.name%></p>
+        <%
+        if(user.image)
+        { %>
+        <div class="profilePictureContainer">
+            <img class="profilePicture" src="<%=user.image%>">
+        </div>
+        <% } %>
+        
+         <%
+         var totalFollowers = 0, totalFollowing = 0;
+        if(user.followers.count>1)
+        { 
+            totalFollowers = user.followers.count
+        }
+
+        if(user.following.count>1)
+        { 
+            
+            totalFollowing = user.following.count
+            
+        } %>
+        
+        <p>Total followers: <%=totalFollowers%> | Total following: <%=totalFollowing%></p>
         <%
         if(user.stats.totalPicks)
         { %>
@@ -18,49 +42,53 @@
             <p><%=user.username%> has not made any picks.</p>
         <%
         } %>
+        
         <br>
-        <%
-        if(user.friends.count>1)
-        { %>
-            
-            <p>Total friends: <%=user.friends.count%></p>
-            <%
-            user.friends.forEach(function(friend)
-            { %>
-                <p>friend.username</p>
-            <%
-            })
-            
-        }%>
+       
     </div>
 </div>
 <div class="row">
     <%
-    user.friends.forEach(function(friend)
+    currentUser.following.forEach(function(follow)
     {
+        console.log ("FOLLOWER IDS ARE ");
+        console.log(follow)
         var areFriends = false;
-        if(friend.id === user.id)
+        if(follow.id === user.id)
         { %>
-            <div class="col-xs-12 text-center">
-                <a class="btn btn-primary" id="pool-button" href="#">Unfollow <%=user.name%></a>
-            </div>
+            <form action="/users/<%=user.id%>/unfollow" method="POST">
+                <div class="col-xs-12 text-center">
+                        <button type="submit" id="pool-button" class="btn btn-primary"><i class="icon-user-plus"></i> Unfollow <%=user.name%></button>
+                </div>
+                </form>
             <%
             areFriends = true;
         }
         else if(!areFriends)
         { %>
-            <div class="col-xs-12 text-center">
-                <a class="btn btn-primary" id="pool-button" href="#">Follow <%=user.name%></a>
-            </div>
+            <form action="/users/<%=user.id%>/follow" method="POST">
+                <div class="col-xs-12 text-center">
+                        <button type="submit" id="pool-button" class="btn btn-primary"><i class="icon-user-plus"></i> Follow <%=user.name%></button>
+                </div>
+            </form>
             <%
         }
-    }) %>
-
-    
+    }) %> <!-- end for each current users' following -->
+    <%
+    if(currentUser.following = [] && currentUser.following.count < 1)
+        { %>
+        <form action="/users/<%=user.id%>/follow" method="POST">
+            <div class="col-xs-12 text-center">
+                    <button type="submit" id="pool-button" class="btn btn-primary"><i class="icon-user-plus"></i> Follow <%=user.name%></button>
+            </div>
+            </form>
+            <%
+        }
+        %>
     <% if(user.id === currentUser.id)
     { %>
         <div class="col-xs-12 text-center">
-            <a class="btn btn-primary" id="pool-button" href="#">Edit profile</a>
+            <a class="btn btn-primary" id="pool-button" href="/users/<%=currentUser.id%>/edit">Edit profile</a>
         </div>
 <%  } %>
 </div><!-- end row -->

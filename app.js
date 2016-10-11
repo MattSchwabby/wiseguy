@@ -10,11 +10,13 @@ var express     = require("express"),
     User = require("./models/user"),
     refreshNFLGames = require('./refreshNFLGames'),
     updateNFLScores = require('./updateNFLScores'),
+    indexUsers = require('./indexUsers'),
     schedule = require('node-schedule');
     
 // Require Routes
 var poolRoutes          = require("./routes/pools"),
     userRoutes          = require("./routes/user"),
+    searchRoutes          = require("./routes/search"),
     indexRoutes         = require("./routes/index");
     
 // const util = require('util');
@@ -77,9 +79,12 @@ app.use(function(req, res, next)
    next();
 });
 
+indexUsers();
+
 app.use("/", indexRoutes);
 app.use("/pools", poolRoutes);
 app.use("/users", userRoutes);
+app.use("/search", searchRoutes);
 
 app.listen(process.env.PORT, process.env.IP, function()
 {

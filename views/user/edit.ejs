@@ -1,48 +1,28 @@
 <% include ../partials/header %>
-<div class="row text-left"></div>
-    <div class="col-xs-4 col-xs-offset-5 text-left">
-        <p class="lead">Edit profile: <%=user.name%></p>
-            <form class="form-horizontal" action="#" method="POST">
-                <div class="form-group">
-                    <label class="col-md-4 control-label" for="username">E-mail address</label>
-                    <div class="col-md-4">
-                        <input id="textinput" class="form-control input-md" required type="text" name="username" placeholder="<%=user.username%>"></input>
-                    </div>
-                </div>            
-                <div class="form-group">
-                    <label class="col-md-4 control-label" for="confirmEmail">Confirm e-mail address</label>
-                    <div class="col-md-4">
-                        <input id="textinput" class="form-control input-md" required type="text" name="username" placeholder="<%=user.username%>"></input>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-md-4 control-label" for="name">Name</label>
-                    <div class="col-md-4">
-                        <input id="textinput" class="form-control input-md" required type="text" name="name" placeholder="<%=user.name%>"></input>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-4 col-sm-offset-4">
-                        <button type="submit" class="btn btn-primary btn-block"><i class="icon-user-plus"></i> Sign Up</button>
-                    </div>
-                </div>
-            </form>
-        
-        <%
-        if(user.friends.count>1)
-        { %>
-            
-            <p>Total friends: <%=user.friends.count%></p>
-            <%
-            user.friends.forEach(function(friend)
-            { %>
-                <p>friend.username</p>
-            <%
-            })
-            
-        }%>
-    </div>
-</div>
 
+<div class="row text-left">
+
+        <p class="lead">Edit profile: <%=currentUser.name%></p>
+        <form class="form-horizontal" action="/users/<%= currentUser._id %>?_method=PUT" method="POST">
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="name">Name</label>
+                <div class="col-md-4">
+                    <input id="textinput" class="form-control input-md" required type="text" name="name" value="<%=currentUser.name%>" placeholder="<%=currentUser.name%>"></input>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="image">Profile picture URL</label>
+                <div class="col-md-4">
+                    <input id="textinput" class="form-control input-md" required type="text" name="image" value="<%=currentUser.image%>" placeholder="<%=currentUser.image%>"></input>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-4">
+                    <button type="submit" class="btn btn-primary btn-block"><i class="icon-user-plus"></i> Submit</button>
+                </div>
+            </div>
+        </form>
+   
+</div>
 
 <% include ../partials/footer %>

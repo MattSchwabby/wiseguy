@@ -1,0 +1,33 @@
+<% include ../partials/header %>
+
+<div class="row text-left"></div>
+    <div class="col-sm-4 col-sm-offset-4 text-left">
+        <%
+        results.forEach(function(result)
+        { %>
+            <a href="/users/<%= result._id %>">
+            <div class="searchResult">
+                <p class="lead">User name: <%=result.name%></p>
+                <%
+                if(result.stats.totalPicks)
+                { %>
+                    <p>Total picks: <%=result.stats.totalPicks%></p>
+                    <p>Lifetime correct picks: <%=result.stats.correctPicks%></p>
+                    <p>Lifetime correct picks against the spread: <%=result.stats.correctSpreadPicks%></p>
+                    <p>Participated in <%=result.stats.totalPools%> pools</p>
+                <%
+                } 
+                else
+                { %>
+                    <p><%=result.username%> has not made any picks.</p>
+                <%
+                } %>
+            </div> <!-- end .searchResult -->
+            </a>
+    <%  }) %>
+
+    </div> <!-- end col -->
+</div><!-- end row -->
+
+
+<% include ../partials/footer %>

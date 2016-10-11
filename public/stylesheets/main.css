@@ -15,6 +15,21 @@ a
   color: #222;
 }
 
+label
+{
+  margin-top: 15px;
+}
+
+input
+{
+  max-width: 450px;
+}
+
+button
+{
+  max-width: 450px;
+}
+
 .jumbotron h1
 {
   font-family: 'Poiret One', Helvetica, 'Segoe UI Light';
@@ -146,13 +161,14 @@ a
 .home
 {
   float: left;
-  padding-left: 20%;
+  padding-left: 15px;
 }
 
 .away
 {
   float: right;
-  padding-right: 20%;
+  padding-right: 15px;
+
 }
 
 .picks
@@ -176,8 +192,19 @@ a
 #pool-button
 {
   margin-top: -10px;
-
+  width: 300px;
   margin-bottom: -125px;
+}
+
+.profilePictureContainer
+{
+  max-width: 200px;
+  margin-bottom: 15px;
+}
+
+.profilePicture
+{
+  max-width: 100%;
 }
 
 input[type="radio"]
@@ -194,6 +221,8 @@ input
 {
   margin-right: 10px;
 }
+
+
 
 .footer p
 {
@@ -296,16 +325,7 @@ footer i
   {
       width: 100%;
   }
-  
-  .home
-  {
-    padding-left: 15%;
-  }
-  
-  .away
-  {
-    padding-right: 15%;
-  }
+
 
 }
 @media (min-width: 992px)
@@ -314,8 +334,14 @@ footer i
   {
       width: 100%;
   }
-  
-  
+}
+
+@media (max-width: 880px)
+{
+  .navbar-right
+  {
+    font-size: 11px;
+  }
 }
 
 @media (min-width: 768px)
@@ -324,10 +350,12 @@ footer i
   {
       width: 100%;
   }
+  
 }
   
 @media (max-width: 768px)
 {
+ 
   .footer
   {
       padding-top: 0px;
@@ -337,5 +365,28 @@ footer i
   {
     padding-left: 0px;
   }
+  
+    .scoreCard
+  {
+    margin-left: 15%;
+    margin-right: 15%;
+  }
+}
 
+@media (max-width: 767px)
+{
+    
+    .navbar-right
+  {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 500px)
+{
+  .scoreCard
+  {
+    margin-left: 5%;
+    margin-right: 5%;
+  }
 }

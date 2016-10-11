@@ -1,6 +1,7 @@
 var request = require('request');
 var mongoose = require("mongoose");
 var Scores = require('./models/scores');
+var refreshNFLGames = require('./refreshNFLGames');
 
 //mongoose.connect("mongodb://localhost/pickem");
 
@@ -26,20 +27,28 @@ var updateScore = function()
                         }
                         else
                         {
-                            //call function here
-                            parsedGames.forEach(function(game)
+                            if(!scores)
                             {
-                                scores.games.forEach(function(score)
+                                console.log("NO NFL GAMES DETECTED IN DB. EXITING SCORE UPDATE PROCESS AND CALLING FUNCTION TO GENERATE GAMES.");
+                                refreshNFLGames();
+                            }
+                            else
+                            {
+                                //call function here
+                                parsedGames.forEach(function(game)
                                 {
-                                    if(Number(game.gameID) === Number(score.gameID))
+                                    scores.games.forEach(function(score)
                                     {
-                                        score.homeScore = game.homeScore;
-                                        score.awayScore = game.awayScore;
-                                    }
+                                        if(Number(game.gameID) === Number(score.gameID))
+                                        {
+                                            score.homeScore = game.homeScore;
+                                            score.awayScore = game.awayScore;
+                                        }
+                                    });
                                 });
-                            });
-                            console.log("Saving updated scores to the DB.");
-                            scores.save();
+                                console.log("Saving updated scores to the DB.");
+                                scores.save();
+                            }
                         }
                     }); // end find one score
                 }
@@ -52,8 +61,6 @@ var updateScore = function()
         }
     });
 };
-
-module.exports = updateScore;
 
 function parseGames(games, cb)
 {

@@ -6,6 +6,7 @@ var methodOverride = require("method-override");
 var Pool = require("../models/pool");
 var User = require("../models/user");
 var passport = require("passport");
+var indexUsers = require('../indexUsers');
 
 
 // landing page
@@ -19,7 +20,7 @@ router.get("/", function(req, res)
             console.log("ERROR " + error);
         }
         else
-        {
+        {   
             res.render("landing", {scores: scores});
         }
     });
@@ -40,7 +41,7 @@ router.post("/register", function(req, res)
 {
     if (req.body.username === req.body.confirmEmail && req.body.password === req.body.confirmPassword)
     {
-        var newUser = new User({username: req.body.username, name: req.body.name});
+        var newUser = new User({username: req.body.username, name: req.body.name, image: req.body.image});
         User.register(newUser, req.body.password, function(err, user)
         {
             if(err)
@@ -51,6 +52,7 @@ router.post("/register", function(req, res)
             passport.authenticate("local")(req, res, function()
             {
                 res.redirect("/pools");
+                indexUsers();
             });
         });
     }

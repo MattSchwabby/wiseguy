@@ -131,7 +131,6 @@ router.get("/:id/edit", checkPoolOwnership, function(req, res)
 {
     Pool.findById(req.params.id, function(err, foundPool)
     {
-
         var gameID = foundPool.games;
         Scores.findById(gameID, function(err, foundScores)
         {

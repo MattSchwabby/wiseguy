@@ -7,6 +7,7 @@ var UserSchema = new mongoose.Schema(
 {
     username: String,
     name: String,
+    image: String,
     password: String,
     pools: 
     [
@@ -15,7 +16,14 @@ var UserSchema = new mongoose.Schema(
             ref: "Pool"
         }    
     ],
-    friends:
+    followers:
+    [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        }  
+    ],
+    following:
     [
         {
             type: mongoose.Schema.Types.ObjectId,

@@ -1,6 +1,7 @@
 <% include ./partials/header %>
 
 <div class="row text-left">
+
     <form class="form-horizontal" action="/register" method="POST">
 
         <legend>Sign up for Wiseguy</legend>
@@ -28,6 +29,14 @@
             </div>
             
             <div class="form-group">
+                <label class="col-md-4 control-label" for="image">Profile picture URL</label>
+                <div class="col-md-4">
+                    <input id="textinput" class="form-control input-md" type="text" name="image" placeholder="Profile picture URL"></input>
+                    <span class="help-block">Please enter the URL of an image that you would like to use as your profile picture. You may input the URL of an image hosted by any social network or image hosting service. Wiseguy does not support image upload at this time. This field is completely optional.</span>
+                </div>
+            </div>
+            
+            <div class="form-group">
                 <label class="col-md-4 control-label" for="password">Password</label>
                 <div class="col-md-4">
                     <input id="textinput" class="form-control input-md" type="password" name="password" placeholder="Password"></input>
@@ -44,6 +53,7 @@
             
             <div class="form-group">
                 <div class="col-sm-4 col-sm-offset-4">
+                    <input type="hidden" name="<%= score.gameID %>[gameID]" value="<%= score.gameID %>">
                     <button type="submit" class="btn btn-primary btn-block"><i class="icon-user-plus"></i> Sign Up</button>
                 </div>
             </div>
