@@ -113,10 +113,10 @@ router.put("/:id", checkUserOwnership, function(req, res)
     });
 });
 
-// SHOW EDIT USER PROFILE
-router.post("/:id/follow", isLoggedIn, isntFollowing, function(req, res)
+
+// Route to add someone to a user's following and them to the target's followers
+router.post("/:id/follow", isLoggedIn, function(req, res)
 {
-    if()
     User.findById(req.user.id, function(error, foundCurrentUser)
     {
         if(error)
@@ -126,8 +126,6 @@ router.post("/:id/follow", isLoggedIn, isntFollowing, function(req, res)
         }
         else
         {
-            foundCurrentUser.following.push(req.params.id);
-            foundCurrentUser.save();
             User.findById(req.params.id, function(error, foundUser)
             {
                 if(error)
@@ -137,43 +135,43 @@ router.post("/:id/follow", isLoggedIn, isntFollowing, function(req, res)
                 }
                 else
                 {
-                    // add a follower to the subject user
-                    foundUser.followers.push(req.user.id);
-                    foundUser.save();
-                    res.redirect("back");
+                    isntFollowing(foundCurrentUser, req.params.id, function()
+                    {
+                        foundUser.followers.push(req.user.id);
+                        foundUser.save();
+                        foundCurrentUser.following.push(req.params.id);
+                        foundCurrentUser.save();
+                        res.redirect("back");   
+                    });
                 }
-            })
+                
+            });
             // res.render("user/edit", {currentUser: req.user});
         }
     });
 });
 
 // Middleware for ensuring a user isn't already following someone
-function isntFollowing(req, res, next)
+function isntFollowing(currentUser, targetUser, callback)
 {
-    User.findById(req.user._id, function(error, foundCurrentUser)
+    if(currentUser.following === [])
     {
-        if(error)
+        currentUser.following.forEach(function(follow)
         {
-            console.log("ERROR FINDING USER IN isntFollowing()");
-            console.log(error);
-        }
-        else
-        {
-            foundCurrentUser.following.forEach(function(follow)
+            if(follow === targetUser)
             {
-                if(follow._id === req.params.id)
-                {
-                    console.log("CURRENT USER ALREADY FOLLOWS THE REQUESTED FOLLOW");
-                    res.redirect("back");
-                }
-                else
-                {
-                    next();
-                }
-            })
-        }
-    })
+                console.log("Current user already follows target user");
+            }
+            else
+            {
+                callback();
+            }
+        });
+    }
+    else
+    {
+        callback();
+    }
 }
 
 // Middleware for checking the ownership of a user profile

@@ -14,4 +14,4 @@ This repository requires that Node.js be installed on the server that will be ho
 
 ### Current Status
 
-10/7/2016 - Basic application functionality is working. No user authentication/authorization model has been applied. No styling has been done.
+10/10/2016 - Auth is working, styles have been applied, and user profiles can be viewed. Next, need to add functionality for adding/viewing followers.

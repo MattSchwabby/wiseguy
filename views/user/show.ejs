@@ -1,27 +1,30 @@
 <% include ../partials/header %>
 
-<div class="row text-left"></div>
-    <div class="col-sm-4 col-sm-offset-4 text-left">
-        <p class="lead">User Name: <%=user.name%></p>
+<div class="row"></div>
+        <p class="lead"><%=user.name%></p>
+    <div class="col-lg-5 col-md-offset-4 col-md-6 col-sm-12 col-xs-12 text-center">
+
         <%
         if(user.image)
         { %>
-        <div class="profilePictureContainer">
+        <div class="profilePictureContainer center-block">
             <img class="profilePicture" src="<%=user.image%>">
         </div>
         <% } %>
         
-         <%
-         var totalFollowers = 0, totalFollowing = 0;
-        if(user.followers.count>1)
+
+     <div class="userProfileContainer text-left">
+        <%
+        var totalFollowers = 0, totalFollowing = 0;
+        if(user.followers.length>0)
         { 
-            totalFollowers = user.followers.count
+            totalFollowers = user.followers.length
         }
 
-        if(user.following.count>1)
+        if(user.following.length>0)
         { 
-            
-            totalFollowing = user.following.count
+
+            totalFollowing = user.following.length
             
         } %>
         
@@ -42,46 +45,52 @@
             <p><%=user.username%> has not made any picks.</p>
         <%
         } %>
-        
-        <br>
+    </div>
+    <br>
        
     </div>
 </div>
 <div class="row">
     <%
-    currentUser.following.forEach(function(follow)
+    if(currentUser.id === user.id)
     {
-        console.log ("FOLLOWER IDS ARE ");
-        console.log(follow)
-        var areFriends = false;
-        if(follow.id === user.id)
-        { %>
-            <form action="/users/<%=user.id%>/unfollow" method="POST">
-                <div class="col-xs-12 text-center">
-                        <button type="submit" id="pool-button" class="btn btn-primary"><i class="icon-user-plus"></i> Unfollow <%=user.name%></button>
-                </div>
+        // do nothing
+    }
+    else
+    {
+        currentUser.following.forEach(function(follow)
+        {
+            var areFriends = false;
+            if(follow == user.id)
+            { %>
+                <form action="/users/<%=user.id%>/unfollow" method="POST">
+                    <div class="col-xs-12 text-center">
+                            <button type="submit" id="pool-button" class="btn btn-primary"><i class="icon-user-plus"></i> Unfollow <%=user.name%></button>
+                    </div>
+                    </form>
+                <%
+                areFriends = true;
+            }
+            else if(!areFriends)
+            { %>
+                <form action="/users/<%=user.id%>/follow" method="POST">
+                    <div class="col-xs-12 text-center">
+                            <button type="submit" id="pool-button" class="btn btn-primary"><i class="icon-user-plus"></i> Follow <%=user.name%></button>
+                    </div>
                 </form>
-            <%
-            areFriends = true;
-        }
-        else if(!areFriends)
-        { %>
-            <form action="/users/<%=user.id%>/follow" method="POST">
-                <div class="col-xs-12 text-center">
-                        <button type="submit" id="pool-button" class="btn btn-primary"><i class="icon-user-plus"></i> Follow <%=user.name%></button>
-                </div>
-            </form>
-            <%
-        }
-    }) %> <!-- end for each current users' following -->
+                <%
+            }
+        }) %> <!-- end for each current users' following -->
+  <%  } %>
     <%
-    if(currentUser.following = [] && currentUser.following.count < 1)
+    if(currentUser.following.length < 1)
         { %>
         <form action="/users/<%=user.id%>/follow" method="POST">
             <div class="col-xs-12 text-center">
+                <input type="hidden" name="<%=user.id%>" value="<%=user.id%>">
                     <button type="submit" id="pool-button" class="btn btn-primary"><i class="icon-user-plus"></i> Follow <%=user.name%></button>
             </div>
-            </form>
+        </form>
             <%
         }
         %>

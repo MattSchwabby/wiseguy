@@ -86,7 +86,22 @@ app.use("/pools", poolRoutes);
 app.use("/users", userRoutes);
 app.use("/search", searchRoutes);
 
-app.listen(process.env.PORT, process.env.IP, function()
+
+// Set up listener to dynamically detect deployment environment
+if(process.env.PORT && process.env.IP)
 {
-    console.log("PICKEM SERVER IS LISTENING ON PORT " + process.env.PORT + " AND IP ADDRESS " + process.env.IP);
-});
+    app.listen(process.env.PORT, process.env.IP, function()
+    {
+        console.log("PICKEM SERVER IS LISTENING ON PORT " + process.env.PORT + " AND IP ADDRESS " + process.env.IP);
+    });
+}
+else
+{
+    // IP for my AWS instance
+    var PORT = "80";
+    var IP = "54.213.145.69";
+    app.listen(PORT, IP, function()
+    {
+        console.log("PICKEM SERVER IS LISTENING ON PORT " + PORT + " AND IP ADDRESS " + IP);
+    });
+}
