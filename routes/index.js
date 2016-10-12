@@ -53,6 +53,7 @@ router.post("/register", function(req, res)
             }
             passport.authenticate("local")(req, res, function()
             {
+                req.flash("success", "Thank you for signing up with Wiseguy. This is a very early version of this application, so some issues should be expected. If you run into any issues, please feel free to let me know by e-mailing me at matthew.schwabby@gmail.com. Good luck with your pools!");
                 res.redirect("/pools");
                 indexUsers();
             });

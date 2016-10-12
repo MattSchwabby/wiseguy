@@ -107,7 +107,7 @@ else
 {
     // IP for my AWS instance
     var PORT = "80";
-    var IP = "54.213.145.69";
+    var IP = "52.39.23.218";
     app.listen(PORT, IP, function()
     {
         console.log("PICKEM SERVER IS LISTENING ON PORT " + PORT + " AND IP ADDRESS " + IP);
