@@ -279,7 +279,7 @@ button
 {
   margin-top: -14px;
   border-radius: 0;
-  margin-bottom: 14px;
+  margin-bottom: 18px;
 
 }
 
@@ -473,7 +473,7 @@ footer i
   
   .navbar-right
   {
-    font-size: 18px !important;
+    font-size: 15px !important;
   }
   
   .navbar-right li
@@ -500,6 +500,11 @@ footer i
   {
     margin-left: 15%;
     margin-right: 15%;
+  }
+  
+  .flash
+  {
+    margin-top: -18px;
   }
 }
 
