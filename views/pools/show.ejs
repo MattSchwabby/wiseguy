@@ -28,11 +28,18 @@ var winnings = calculateWinnings(pool, scores);
 
 %>
 
-%>
+
 <%if(toWin > 0)
 { %>
-    <p class="lead"><i class="icon-dollar-1"></i> $<%=toWin%> on the line | $<%=winnings.money%> winnings </p>
-<% } %>
+    
+    <% if(String(pool.author.id) === String(currentUser.id))
+    { %>
+
+        %>
+            <p class="lead"><i class="icon-dollar-1"></i> $<%=toWin%> on the line | $<%=winnings.money%> winnings </p>
+        <%
+    }
+ } %>
 <p class="lead"><i class="icon-ok"></i> <%=totalPicks%> total picks | <%=winnings.picks%> correct picks </p>
 <div>
     <div class="row">
@@ -127,7 +134,7 @@ var winnings = calculateWinnings(pool, scores);
                                     <p class="awayScore"> <%= score.awayScore %></p>
                                 </div>
                                 <div class="picks">
-                                    <p>You picked:</p><img class="pickIcon" src="http://i.nflcdn.com/static/site/7.4/img/teams/<%= pick.winner %>/<%= pick.winner %>_logo-80x90.gif">
+                                    <p>Pick:</p><img class="pickIcon" src="http://i.nflcdn.com/static/site/7.4/img/teams/<%= pick.winner %>/<%= pick.winner %>_logo-80x90.gif">
                                     <%
                                     if(pick.spread)
                                     { %>
@@ -140,7 +147,10 @@ var winnings = calculateWinnings(pool, scores);
                                 <%  }
                                     if(pick.toWin)
                                     { %>
-                                    <p>toWin: $<%= pick.toWin %></p>
+                                        <% if(String(pool.author.id) === String(currentUser.id))
+                                        { %>
+                                            <p>To win: $<%= pick.toWin %></p>
+                                    <%  } %>
                                 <%  }
                                     else
                                     { %>
@@ -174,8 +184,42 @@ var winnings = calculateWinnings(pool, scores);
 </div>
 <% } %>
 
-      </div><!-- custom styles -->
-</div><!-- /.container -->
+<!-- comment section -->
+
+<div class="pre-footer"></div>
+
+        <div class="well">
+            <div class="text-right">
+                    <a class="btn btn-success" href="/pools/<%=pool._id%>/comments/new">Add New Comment</a>
+            </div>
+            <hr>
+            <% pool.comments.forEach(function(comment)
+            { %>
+            <div class="row">
+                <div class="col-xs-12 text-right">
+
+                    <div class="commentIMGContainer">
+                        <img class="" src="<%=comment.author.image%>">
+
+                    </div>  
+                                            <strong class="pull-left"><%= comment.author.name %> </strong>
+            <span class="pull-right"> 10 days ago</span>
+                    <br>
+                    <p class="text-left"> <%= comment.text %>
+                    </p>
+                    <%
+                    if(String(comment.author.id) === String(currentUser.id))
+                    { %>
+                        <a class="btn btn-xs btn-warning pull-right" href="/pools/<%=pool._id%>/comments/<%=comment._id%>/edit">Edit</a>
+                        <form action="/pools/<%=pool._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
+                            <input id="delete-form"  type="submit" class="btn btn-xs btn-danger" value="Delete">
+                        </form>
+                <%  } %>
+                        
+                </div>
+            </div>
+            <% }) %> 
+        </div>
 
 <%
 function calculateWinnings(pool, scores)

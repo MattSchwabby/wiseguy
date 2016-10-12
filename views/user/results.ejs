@@ -1,34 +1,45 @@
 <% include ../partials/header %>
+        <legend>Search results</legend>
 
-<div class="row text-left"></div>
-    <div class="col-xs-12 text-center">
+
         <%
         results.forEach(function(result)
         { %>
+    <div class="row text-left">
+        <div class="col-lg-5 col-md-offset-4 col-md-6 col-sm-12 col-xs-12 text-center">
             <a href="/users/<%= result._id %>">
-            <div class="searchResult">
-                <img src="<%=result.image%>">
-                <div id="resultText">
-                <p class="lead">User name: <%=result.name%></p>
+            <div class="searchResultImgContainer center-block">
+                <img class="" src="<%=result.image%>">
+            </div>
+            <div class="searchResult text-left">
+                <p class="lead"><%=result.name%></p>
                 <%
                 if(result.stats.totalPicks)
                 { %>
-                    
-                        <p>Total picks: <%=result.stats.totalPicks%></p>
-                        <p>Lifetime correct picks: <%=result.stats.correctPicks%></p>
-                        <p>Lifetime correct picks against the spread: <%=result.stats.correctSpreadPicks%></p>
-                        <p>Participated in <%=result.stats.totalPools%> pools</p>
-                    </div>
+                    <p>Total picks: <%=result.stats.totalPicks%></p>
+                    <p>Lifetime correct picks: <%=result.stats.correctPicks%></p>
+                    <p>Lifetime correct picks against the spread: <%=result.stats.correctSpreadPicks%></p>
+                    <p>Participated in <%=result.stats.totalPools%> pools</p>
+                    </a>
+            </div>
+            </div>
+            </div>
+            <br>
                 <%
                 } 
                 else
                 { %>
-                    <p><%=result.username%> has not made any picks.</p>
-                    </div>
+                        <p><%=result.username%> has not made any picks.</p>
+                        </a>
+                   </div>
+               </div>
+           </div>
+                   <br>
                 <%
                 } %>
-            </div> <!-- end .searchResult -->
-            </a>
+                  
+ <!-- end row -->
+          <legend></legend>
     <%  }) %>
 
     </div> <!-- end col -->

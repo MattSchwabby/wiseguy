@@ -1,7 +1,8 @@
 <% include ../partials/header %>
+        <legend><%=user.name%></legend>
 
 <div class="row"></div>
-        <p class="lead"><%=user.name%></p>
+ 
     <div class="col-lg-5 col-md-offset-4 col-md-6 col-sm-12 col-xs-12 text-center">
 
         <%
@@ -28,7 +29,7 @@
             
         } %>
         
-        <p>Total followers: <%=totalFollowers%> | Total following: <%=totalFollowing%></p>
+        <p><a href="/users/<%=user.id%>/followers">Total followers: <%=totalFollowers%></a> | <a href="/users/<%=user.id%>/following">Total following: <%=totalFollowing%></p></a>
         <%
         if(user.stats.totalPicks)
         { %>
@@ -36,7 +37,7 @@
             <p>Total picks: <%=user.stats.totalPicks%></p>
             <p>Lifetime correct picks: <%=user.stats.correctPicks%></p>
             <p>Lifetime correct picks against the spread: <%=user.stats.correctSpreadPicks%></p>
-            <p>Participated in <%=user.stats.totalPools%> pools</p>
+            <a href="/users/<%=user.id%>/pools"><p class="lead">Participated in <%=user.stats.totalPools%> pools</p></a>
 
         <%
         } 
@@ -52,7 +53,7 @@
 </div>
 <div class="row">
     <%
-    if(currentUser.id === user.id)
+    if(currentUser.id == user.id)
     {
         // do nothing
     }
@@ -65,6 +66,7 @@
             { %>
                 <form action="/users/<%=user.id%>/unfollow" method="POST">
                     <div class="col-xs-12 text-center">
+                            <input type="hidden" name="<%=user.id%>" value="<%=user.id%>">
                             <button type="submit" id="pool-button" class="btn btn-primary"><i class="icon-user-plus"></i> Unfollow <%=user.name%></button>
                     </div>
                     </form>
@@ -75,6 +77,7 @@
             { %>
                 <form action="/users/<%=user.id%>/follow" method="POST">
                     <div class="col-xs-12 text-center">
+                            <input type="hidden" name="<%=user.id%>" value="<%=user.id%>">
                             <button type="submit" id="pool-button" class="btn btn-primary"><i class="icon-user-plus"></i> Follow <%=user.name%></button>
                     </div>
                 </form>
@@ -83,7 +86,7 @@
         }) %> <!-- end for each current users' following -->
   <%  } %>
     <%
-    if(currentUser.following.length < 1)
+    if(currentUser.following.length < 1 && currentUser.id != user.id)
         { %>
         <form action="/users/<%=user.id%>/follow" method="POST">
             <div class="col-xs-12 text-center">
@@ -97,7 +100,7 @@
     <% if(user.id === currentUser.id)
     { %>
         <div class="col-xs-12 text-center">
-            <a class="btn btn-primary" id="pool-button" href="/users/<%=currentUser.id%>/edit">Edit profile</a>
+            <a class="btn btn-primary" id="pool-button" href="/users/<%=currentUser.id%>/edit"><i class="icon-pencil"></i> Edit profile</a>
         </div>
 <%  } %>
 </div><!-- end row -->

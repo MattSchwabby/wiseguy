@@ -7,21 +7,27 @@
   "ascent": 850,
   "glyphs": [
     {
-      "uid": "429c0a4a7c5aba2f8a894f98b48529b3",
-      "css": "football",
-      "code": 59416,
-      "src": "maki"
+      "uid": "9dd9e835aebe1060ba7190ad2b2ed951",
+      "css": "search",
+      "code": 59392,
+      "src": "fontawesome"
     },
     {
       "uid": "fhpup8jff2yw9kmuwavhyqxogczcbbhj",
-      "css": "dollar-1",
-      "code": 59392,
+      "css": "dollar",
+      "code": 59393,
       "src": "modernpics"
     },
     {
       "uid": "12f4ece88e46abd864e40b35e05b11cd",
       "css": "ok",
-      "code": 59393,
+      "code": 59394,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "8b80d36d4ef43889db10bc1f0dc9a862",
+      "css": "user",
+      "code": 59395,
       "src": "fontawesome"
     },
     {
@@ -39,31 +45,19 @@
     {
       "uid": "31972e4e9d080eaa796290349ae6c1fd",
       "css": "users",
-      "code": 59394,
+      "code": 59396,
       "src": "fontawesome"
     },
     {
-      "uid": "cf1d7ee3d5c367a5c5a3cc9e77acec68",
-      "css": "list",
-      "code": 59395,
-      "src": "websymbols"
-    },
-    {
-      "uid": "97ac1a82370ae58f02e4ff1bdc58ee86",
-      "css": "attention",
-      "code": 59396,
-      "src": "websymbols"
-    },
-    {
-      "uid": "cba6018f5de17c76f70b7d2c06037e5a",
-      "css": "mail",
+      "uid": "b1887b423d2fd15c345e090320c91ca0",
+      "css": "th",
       "code": 59397,
-      "src": "websymbols"
+      "src": "fontawesome"
     },
     {
-      "uid": "0f6a2573a7b6df911ed199bb63717e27",
-      "css": "github-circled",
-      "code": 61595,
+      "uid": "d35a1d35efeb784d1dc9ac18b9b6c2b6",
+      "css": "pencil",
+      "code": 59398,
       "src": "fontawesome"
     },
     {
@@ -73,9 +67,33 @@
       "src": "fontawesome"
     },
     {
+      "uid": "0ece9a12de796b8411f868d582bee678",
+      "css": "github-squared",
+      "code": 62208,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "ccc2329632396dc096bb638d4b46fb98",
+      "css": "mail-alt",
+      "code": 61664,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "a2a74f5e7b7d9ba054897d8c795a326a",
+      "css": "list-bullet",
+      "code": 61642,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "429c0a4a7c5aba2f8a894f98b48529b3",
+      "css": "football",
+      "code": 59416,
+      "src": "maki"
+    },
+    {
       "uid": "44e04715aecbca7f266a17d5a7863c68",
       "css": "plus",
-      "code": 59398,
+      "code": 59399,
       "src": "fontawesome"
     }
   ]

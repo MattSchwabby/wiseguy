@@ -1,11 +1,13 @@
 <% include ../partials/header %>
 
-
     <header class="jumbotron">
         <div class="container">
+            <h1><i class="icon-th"></i></h1>
             <h1>pools</h1>
         </div>
     </header>
+    
+    <legend><%= pools[0].author.name %>'s pools</legend>
     
     <div class="row">
         <div class="col-lg-12">
@@ -36,8 +38,15 @@
                     <div class="caption">
                         <h4><%= pool.name %></h4>
                         <p><i class="icon-ok"></i><%= totalPicks %> total picks </p>
-                        <p><i class="icon-dollar-1"></i> $<%= winTotal %> on the line </p>
-                        <p>Created: <%= pool.createdAt %></p>
+                        <%
+                            if(String(pool.author.id) === String(currentUser.id))
+                            { %>
+                                <p><i class="icon-dollar-1"></i> $<%= winTotal %> on the line </p>
+                        <%  }
+                        %>
+                        <% var createdAt = String(pool.createdAt) %>
+                        <%var createdAt = createdAt.substring(0, 15)%>
+                        <p>Created: <%= createdAt %></p>
                     </div>
                     <p><a href="/pools/<%= pool._id %>" class="btn btn-primary"><i class="icon-list"></i> more info</a></p>
                 </div>

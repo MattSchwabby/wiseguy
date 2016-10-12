@@ -11,7 +11,8 @@ var poolSchema = new mongoose.Schema({
          ref: "User"
       },
       username: String,
-      name: String
+      name: String,
+      image: String,
     },
     games:
     [

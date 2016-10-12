@@ -17,6 +17,7 @@ router.get("/", function(req, res)
     {
         if(error)
         {
+            req.flash("error", "Error retrieving scores from the database");
             console.log("ERROR " + error);
         }
         else
@@ -39,13 +40,14 @@ router.get("/register", function(req, res)
 //handle sign up logic
 router.post("/register", function(req, res)
 {
-    if (req.body.username === req.body.confirmEmail && req.body.password === req.body.confirmPassword)
+    if (req.body.username === req.body.confirmEmail && req.body.password === req.body.confirmPassword && req.body.name.length < 21)
     {
         var newUser = new User({username: req.body.username, name: req.body.name, image: req.body.image});
         User.register(newUser, req.body.password, function(err, user)
         {
             if(err)
             {
+                req.flash("error", "Error adding new user to the database. Please chech that your e-mail and confirm e-mail fields match. Or, check that your password and confirm password fields match. E-mail addresses can only be used to create an account once.");
                 console.log(err);
                 return res.render("register");
             }
@@ -82,6 +84,7 @@ router.post("/login", passport.authenticate("local",
 router.get("/logout", function(req, res)
 {
     req.logout();
+    req.flash("success", "Logged out");
     res.redirect("/");
 });
 
@@ -94,6 +97,7 @@ function isLoggedIn(req, res, next)
     }
     else
     {
+        req.flash("error", "Please log in first");
         res.redirect("/login");
     }
 }

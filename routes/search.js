@@ -22,6 +22,7 @@ router.get("/user/", isLoggedIn, function(req, res)
     {
         if(err)
         {
+            req.flash("error", "Error retrieivng search results");
             console.log("ERROR RETRIEVING SEARCH RESULTS FOR " + req.query.user);
             console.log(err);
         }
@@ -43,6 +44,7 @@ function isLoggedIn(req, res, next)
     }
     else
     {
+        req.flash("error", "You need to be logged in to do that");
         res.redirect("/login");
     }
 }

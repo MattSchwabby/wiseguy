@@ -1,0 +1,44 @@
+<% include ../partials/header %>
+        <legend><%=user.name%>'s followers</legend>
+        
+        <% users.forEach(function(follower)
+        { %>
+            <div class="row text-left">
+                <div class="col-lg-5 col-md-offset-4 col-md-6 col-sm-12 col-xs-12 text-center">
+                <a href="/users/<%= follower._id %>">
+                <div class="searchResultImgContainer center-block">
+                <img class="" src="<%=follower.image%>">
+            </div>
+            <div class="searchResult text-left">
+                <p class="lead"><%=follower.name%></p>
+                <%
+                if(follower.stats.totalPicks)
+                { %>
+                    <p>Total picks: <%=follower.stats.totalPicks%></p>
+                    <p>Lifetime correct picks: <%=follower.stats.correctPicks%></p>
+                    <p>Lifetime correct picks against the spread: <%=follower.stats.correctSpreadPicks%></p>
+                    <p>Participated in <%=follower.stats.totalPools%> pools</p>
+                    </a>
+            </div>
+            </div>
+            </div>
+            <br>
+                <%
+                } 
+                else
+                { %>
+                        <p><%=follower.username%> has not made any picks.</p>
+                        </a>
+                   </div>
+               </div>
+           </div>
+                   <br>
+                <%
+                } %>
+                  
+ <!-- end row -->
+          <legend></legend>
+    <%  }) %>
+
+        
+<% include ../partials/footer %>

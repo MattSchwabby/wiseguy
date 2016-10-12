@@ -1,0 +1,46 @@
+<% include partials/header %>
+
+<header class="jumbotron landing">
+        <div class="container feed">
+            <br>
+            <br>
+            <h2><i class="icon-list-bullet"></i></h2>
+            <h1 id="headline">feed</h1>
+        </div> <!-- end container -->
+    </header>
+<div>
+    
+    <legend>Latest pools from users you follow</legend>
+    
+    <%   
+    feed.forEach(function(feedObject)
+    {
+        %>
+        <a href="/pools/<%=feedObject._id%>">
+        <div class="row text-left">
+            <div class="col-lg-5 col-md-offset-4 col-md-6 col-sm-12 col-xs-12 text-center">
+                <div class="searchResultImgContainer center-block">
+                    <img src="<%=feedObject.author.image%>">
+                </div>
+                <div class="searchResult text-left">
+                    <p><%=feedObject.author.name%></p>
+                    <strong><p><%=feedObject.name%></p></strong>
+                    <% var createdAt = String(feedObject.createdAt) %>
+                    <%var createdAt = createdAt.substring(0, 15)%>
+                    <p>Created on <%=createdAt%></p>
+                    <p><i class="icon-ok"></i> <%=feedObject.picks.length%> total picks</p>
+                </div>
+            </div>
+        </div>
+        </a>
+        
+        <%
+    })
+    %>
+    
+</div>
+    
+
+
+
+<% include partials/footer %>

@@ -13,11 +13,13 @@ var Comment = require("../models/comment");
 router.get("/", isLoggedIn, function(req, res)
 {
     // get the current user's pools from DB
-    Pool.find({'author.id': req.user._id}, {}, { sort: { 'createdAt' : -1 } }, function(error, pools)
+    Pool.find({'author.id': req.user._id}, {}, { sort: { 'createdAt' : -1 } }).limit(30).exec(function(error, pools)
     {
         if(error)
         {
+            req.flash("error", "Error retrieving pools from the database");
             console.log("ERROR " + error);
+            res.redirect("back");
         }
         else
         {
@@ -35,7 +37,10 @@ router.get("/new", isLoggedIn, function(req, res)
     {
         if(error)
         {
-            console.log("ERROR " + error);
+            req.flash("error", "Error retrieving scores from the database");
+            console.log("ERROR RETRIEVING SCORES FROM DATABASE");
+            console.log(error);
+            res.redirect("back");
         }
         else
         {
@@ -52,6 +57,7 @@ router.post("/", isLoggedIn, function(req, res)
     {
         if(error)
         {
+            req.flash("error", "Error creating pool");
             console.log("Error retrieving scores from DB before creating a new pool.");
             console.log(error);
             res.redirect("/pools", {currentUser: req.user});
@@ -66,24 +72,27 @@ router.post("/", isLoggedIn, function(req, res)
                     {
                         if(err)
                         {
+                            req.flash("error", "Error saving pool to the database");
                             console.log("ERROR SAVING POOL TO DB.");
                             console.log(err);
+                            res.redirect("back");
                         }
                         else
                         {
                             pool.author.id = req.user._id;
                             pool.author.username = req.user.username;
                             pool.author.name = req.user.name;
+                            pool.author.image = req.user.image;
                             pool.games.push(scores);
                             pool.save();
                             console.log("NEW POOL ADDED TO THE DB");
-                            // console.log(util.inspect(pool, false, null));
                         }
                     });
                 }
                 else
                 {
-                    // do nothing?
+                    req.flash("error", "Error saving pool to the database");
+                    res.redirect("back");
                 }
             });
             res.redirect("/pools");
@@ -93,14 +102,16 @@ router.post("/", isLoggedIn, function(req, res)
 
 
 // Show more information about a specific pool
-router.get("/:id", isLoggedIn, function(req, res)
+router.get("/:id", function(req, res)
 {
-    //find the campground with provided id
-    Pool.findById(req.params.id).populate("games.games").exec(function(err, foundPool)
+    //find the pool with provided id
+    Pool.findById(req.params.id).populate("games.games").populate("comments").exec(function(err, foundPool)
     {
         if(err)
         {
+            req.flash("error", "Error finding information about the requested pool");
             console.log(err);
+            res.redirect("back");
         }
         else
         {
@@ -109,15 +120,13 @@ router.get("/:id", isLoggedIn, function(req, res)
             {
                 if(err)
                 {
+                    req.flash("error", "Error finding information about the requested pool");
                     console.log("ERROR FINDING SCORES WHEN ROUTING TO THE SHOW POOL PAGE");
                     console.log(err);
+                    res.redirect("back");
                 }
                 else
                 {
-                    // console.log("GAMES ID IS :");
-                    // console.log(gameID);
-                    // console.log("FOUND SCORES ARE");
-                    // console.log(foundScores.games);
                     res.render("pools/show", {pool: foundPool, scores: foundScores, currentUser: req.user});
                 }
             });
@@ -136,16 +145,13 @@ router.get("/:id/edit", checkPoolOwnership, function(req, res)
         {
             if(err)
             {
+                req.flash("error", "Error loading edit pool page");
                 console.log("ERROR FINDING SCORES WHEN ROUTING TO THE EDIT POOL PAGE");
                 console.log(err);
                 res.redirect("/pools");
             }
             else
             {
-                // console.log("GAMES ID IS :");
-                // console.log(gameID);
-                // console.log("FOUND SCORES ARE");
-                // console.log(foundScores.games);
                 res.render("pools/edit", {pool: foundPool, scores: foundScores, currentUser: req.user});
             }
         });
@@ -164,7 +170,9 @@ router.put("/:id", checkPoolOwnership, function(req, res)
             {
                 if(err)
                 {
+                    req.flash("error", "Error updating pool");
                     console.log("ERROR FINDING POOL TO UPDATE.");
+                    res.redirect("back");
                 }
                 else
                 {
@@ -177,6 +185,8 @@ router.put("/:id", checkPoolOwnership, function(req, res)
         else
         {
             // do nothing?
+            req.flash("error", "Error updating pool");
+            res.redirect("back");
         }
     });
     res.redirect("/pools/" + req.params.id);
@@ -190,6 +200,7 @@ router.delete("/:id", checkPoolOwnership, function(req, res)
     {
         if(err)
         {
+            req.flash("error", "Error deleting pool");
             console.log("ERROR DELETING POOL");
             console.log(err);
             res.redirect("/pools");
@@ -211,12 +222,13 @@ function isLoggedIn(req, res, next)
     }
     else
     {
+        req.flash("error", "You need to be logged in to do that");
         res.redirect("/login");
     }
 }
 
 
-// Middleware for checking the ownership of a campground
+// Middleware for checking the ownership of a pool
 function checkPoolOwnership(req, res, next)
 {
     //is user logged in
@@ -226,24 +238,27 @@ function checkPoolOwnership(req, res, next)
         {
             if(err)
             {
+                req.flash("error", "Pool not found");
                 res.redirect("back");
             }
             else
             {
-                //does user own the campground
+                //does user own the pool
                 if(foundPool.author.id.equals(req.user._id)) // .equals() is a method that comes with mongoose that allows you to compare variables of different types
                 {
                     next();
                 }
                 else
                 {
-                   res.redirect("back");
+                    req.flash("error", "You don't have permission to modify that pool");
+                    res.redirect("back");
                 }
             }
         });
     }
     else
     {
+        req.flash("error", "Please log in first");
         res.redirect("back");
     }
 }
