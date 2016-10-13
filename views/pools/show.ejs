@@ -1,7 +1,7 @@
 <% include ../partials/header %>
 <meta http-equiv="refresh" content="150">
       <h1><%= pool.name %></h1>
-      <p class="lead">Created by <strong><%=pool.author.name%></strong></p>
+     <p class="lead">Created by  <a href="/users/<%=pool.author.id%>"><strong><%=pool.author.name%></strong></a></p>
 
 <% var toWin = 0, totalPicks = 0, winnings = 0, correctPicks = 0; %>
 <% pool.picks.forEach(function(pick)
