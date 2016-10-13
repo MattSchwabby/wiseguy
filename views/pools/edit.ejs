@@ -32,21 +32,26 @@
                         <p>Pick the winner</p>
                         <% if(String(pick.winner) === String(score.home))
                         { %>
-                            <div class="home">
-                                <input type="radio" name="<%= score.gameID %>[winner]" value="<%= score.home %>" checked="checked"><img class="homeIcon" src="http://i.nflcdn.com/static/site/7.4/img/teams/<%= score.home %>/<%= score.home %>_logo-80x90.gif"><br>
-                            </div>
                             <div class="away">
+                                <p><%=score.away%></p>
                                 <input type="radio" name="<%= score.gameID %>[winner]" value="<%= score.away %>" <%=disabled%>> <img class="homeIcon" src="http://i.nflcdn.com/static/site/7.4/img/teams/<%= score.away %>/<%= score.away %>_logo-80x90.gif"><br>
                             </div>
+                            <div class="home">
+                                <p><%=score.home%></p>
+                                <input type="radio" name="<%= score.gameID %>[winner]" value="<%= score.home %>" checked="checked"><img class="homeIcon" src="http://i.nflcdn.com/static/site/7.4/img/teams/<%= score.home %>/<%= score.home %>_logo-80x90.gif"><br>
+                            </div>
+
                         <%
                         }
                         else
                         { %>
-                            <div class="home">
-                                <input type="radio" name="<%= score.gameID %>[winner]" value="<%= score.home %>" <%=disabled%>><img class="homeIcon" src="http://i.nflcdn.com/static/site/7.4/img/teams/<%= score.home %>/<%= score.home %>_logo-80x90.gif"><br>
-                            </div>
                             <div class="away">
+                                <p><%=score.away%></p>
                                 <input type="radio" name="<%= score.gameID %>[winner]" value="<%= score.away %>" checked="checked"> <img class="homeIcon" src="http://i.nflcdn.com/static/site/7.4/img/teams/<%= score.away %>/<%= score.away %>_logo-80x90.gif"><br>
+                            </div>
+                            <div class="home">
+                                <p><%=score.home%></p>
+                                <input type="radio" name="<%= score.gameID %>[winner]" value="<%= score.home %>" <%=disabled%>><img class="homeIcon" src="http://i.nflcdn.com/static/site/7.4/img/teams/<%= score.home %>/<%= score.home %>_logo-80x90.gif"><br>
                             </div>
                         <%
                         } %>
@@ -69,11 +74,13 @@
                     <fieldset>
                         <input type="hidden" name="<%= score.gameID %>[gameID]" value="<%= score.gameID %>">
                         <p>Pick the winner</p>
-                        <div class="home">
-                            <input type="radio" name="<%= score.gameID %>[winner]" value="<%= score.home %>" <%=disabled%>><img class="homeIcon" src="http://i.nflcdn.com/static/site/7.4/img/teams/<%= score.home %>/<%= score.home %>_logo-80x90.gif"><br>
-                        </div>
                         <div class="away">
+                            <p><%=score.away%></p>
                             <input type="radio" name="<%= score.gameID %>[winner]" value="<%= score.away %>" <%=disabled%>> <img class="homeIcon" src="http://i.nflcdn.com/static/site/7.4/img/teams/<%= score.away %>/<%= score.away %>_logo-80x90.gif"><br>
+                        </div>
+                        <div class="home">
+                            <p><%=score.home%></p>
+                            <input type="radio" name="<%= score.gameID %>[winner]" value="<%= score.home %>" <%=disabled%>><img class="homeIcon" src="http://i.nflcdn.com/static/site/7.4/img/teams/<%= score.home %>/<%= score.home %>_logo-80x90.gif"><br>
                         </div>
                         <div class="picks">
                             Spread <input class="numberInput" type="number" step="any" name="<%= score.gameID %>[spread]" value="0" <%=readonly%>><br>

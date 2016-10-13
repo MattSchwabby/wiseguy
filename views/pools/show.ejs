@@ -125,14 +125,17 @@ var winnings = calculateWinnings(pool, scores);
                     
                         <div class="col-md-2 col-sm-3 col-xs-6">
                             <div class="row scoreCard <%=resultClass%>">
-                                <div class="home">
-                                    <img class="homeIcon" src="http://i.nflcdn.com/static/site/7.4/img/teams/<%= score.home %>/<%= score.home %>_logo-80x90.gif">
-                                    <p class="homeScore"><%= score.homeScore %></p>
-                                </div>
                                 <div class="away">
+                                    <p><%=score.away%></p>
                                     <img class="awayIcon" src="http://i.nflcdn.com/static/site/7.4/img/teams/<%= score.away %>/<%= score.away %>_logo-80x90.gif">
                                     <p class="awayScore"> <%= score.awayScore %></p>
                                 </div>
+                                <div class="home">
+                                    <p><%=score.home%></p>
+                                    <img class="homeIcon" src="http://i.nflcdn.com/static/site/7.4/img/teams/<%= score.home %>/<%= score.home %>_logo-80x90.gif">
+                                    <p class="homeScore"><%= score.homeScore %></p>
+                                </div>
+
                                 <div class="picks">
                                     <p>Pick:</p><img class="pickIcon" src="http://i.nflcdn.com/static/site/7.4/img/teams/<%= pick.winner %>/<%= pick.winner %>_logo-80x90.gif">
                                     <%
