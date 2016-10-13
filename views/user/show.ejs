@@ -61,8 +61,7 @@
     {
         areFriends(currentUser, user, function(result)
         {
-            console.log(result);
-            if(result === "true")
+            if(result)
             {
                 %>
                 <form action="/users/<%=user.id%>/unfollow" method="POST">
@@ -72,17 +71,18 @@
                     </div>
                     </form>
                 <%
+                areFriends = true;
             }
             else
             {
                 %>
                 <form action="/users/<%=user.id%>/follow" method="POST">
-                    <div class="col-xs-12 text-center">
-                            <input type="hidden" name="<%=user.id%>" value="<%=user.id%>">
-                            <button type="submit" id="pool-button" class="btn btn-primary"><i class="icon-user-plus"></i> Follow <%=user.name%></button>
-                    </div>
-                </form>
-                <%
+                        <div class="col-xs-12 text-center">
+                                <input type="hidden" name="<%=user.id%>" value="<%=user.id%>">
+                                <button type="submit" id="pool-button" class="btn btn-primary"><i class="icon-user-plus"></i> Follow <%=user.name%></button>
+                        </div>
+                    </form>
+                    <%
             }
         })
 
@@ -109,14 +109,18 @@
 
 <% function areFriends(user, target, callback)
 {
+    var result = false;
     user.following.forEach(function(follow)
     {
         if(String(follow) === String(target.id))
         {
-            callback("true");
+            result = true;
+
         }
     })
+    callback(result);
 }
 %>
+
 
 <% include ../partials/footer %>
