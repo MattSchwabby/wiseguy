@@ -31,6 +31,7 @@
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^4.0.0",
     "request": "^2.75.0",
+    "serve-favicon": "^2.3.0",
     "xml2js": "^0.4.17"
   }
 }

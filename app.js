@@ -13,6 +13,7 @@ var express         = require("express"),
     refreshNFLGames = require('./refreshNFLGames'),
     updateNFLScores = require('./updateNFLScores'),
     indexUsers      = require('./indexUsers'),
+    favicon         = require('serve-favicon'),
     schedule        = require('node-schedule');
     
     
@@ -69,6 +70,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(methodOverride("_method"));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
+app.use(favicon(__dirname + '/public/img/favicon.ico'));
 app.use(flash());
 
 
