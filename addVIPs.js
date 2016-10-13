@@ -3,7 +3,8 @@ var mongoose = require("mongoose"),
     
 var VIPs =
 [
-    "57ffba12beb17619d9a5ffd0"
+    "57ffba12beb17619d9a5ffd0",
+    "57ffbd3b08b3841a640f9824"
 ];
     
 function addVIPs(newUser, VIPs)
