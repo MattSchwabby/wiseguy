@@ -7,6 +7,7 @@ var Pool = require("../models/pool");
 var User = require("../models/user");
 var passport = require("passport");
 var indexUsers = require('../indexUsers');
+var addVIPs = require("../addVIPs");
 
 
 // landing page
@@ -42,6 +43,10 @@ router.post("/register", function(req, res)
 {
     if (req.body.username === req.body.confirmEmail && req.body.password === req.body.confirmPassword && req.body.name.length < 21 && req.body.name.length > 2)
     {
+        if(req.body.image === "" || req.body.image === " ")
+        {
+            req.body.image = "https://upload.wikimedia.org/wikipedia/en/b/b1/Portrait_placeholder.png";
+        }
         var newUser = new User({username: req.body.username, name: req.body.name, image: req.body.image});
         User.register(newUser, req.body.password, function(err, user)
         {
@@ -53,6 +58,11 @@ router.post("/register", function(req, res)
             }
             passport.authenticate("local")(req, res, function()
             {
+                addVIPs(user._id);
+                console.log("NEW USER IS:");
+                console.log(user);
+                console.log("NEW USER ID IS:");
+                console.log(user._id);
                 req.flash("success", "Thank you for signing up with Wiseguy. This is a very early version of this application, so some issues should be expected. If you run into any issues, please feel free to let me know by e-mailing me at matthew.schwabby@gmail.com. Good luck with your pools!");
                 res.redirect("/pools");
                 indexUsers();
