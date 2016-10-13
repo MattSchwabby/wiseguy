@@ -28,8 +28,8 @@
                     <input type="radio" name="<%= score.gameID %>[winner]" value="<%= score.away %>"> <img class="homeIcon" src="http://i.nflcdn.com/static/site/7.4/img/teams/<%= score.away %>/<%= score.away %>_logo-80x90.gif"><br>
                 </div>
                 <div class="picks">
-                    Spread <input type="number" step="any" name="<%= score.gameID %>[spread]" value="0"><br>
-                    Amount to win: $<input type="number" step="any" name="<%= score.gameID %>[toWin]" value="0"><br>
+                    Spread <input class="numberInput" type="number" step="any" name="<%= score.gameID %>[spread]" value=""><br>
+                    To win: $<input class="numberInput" type="number" step="any" name="<%= score.gameID %>[toWin]" value=""><br>
                 </div>
             </fieldset>
         </div>
