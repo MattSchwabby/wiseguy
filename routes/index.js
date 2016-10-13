@@ -40,14 +40,14 @@ router.get("/register", function(req, res)
 //handle sign up logic
 router.post("/register", function(req, res)
 {
-    if (req.body.username === req.body.confirmEmail && req.body.password === req.body.confirmPassword && req.body.name.length < 21)
+    if (req.body.username === req.body.confirmEmail && req.body.password === req.body.confirmPassword && req.body.name.length < 21 && req.body.name.length > 2)
     {
         var newUser = new User({username: req.body.username, name: req.body.name, image: req.body.image});
         User.register(newUser, req.body.password, function(err, user)
         {
             if(err)
             {
-                req.flash("error", "Error adding new user to the database. Please chech that your e-mail and confirm e-mail fields match. Or, check that your password and confirm password fields match. E-mail addresses can only be used to create an account once.");
+                req.flash("error", "Error adding new user to the database. Please try again. If issues persist, contact me at matthew.schwabby@gmail.com");
                 console.log(err);
                 return res.render("register");
             }
@@ -61,7 +61,31 @@ router.post("/register", function(req, res)
     }
     else
     {
-        return res.render("register");
+        if(req.body.username != req.body.confirmEmail)
+        {
+            req.flash("error", "Error adding new user to the database. Please check that your e-mail and confirm e-mail fields match.");
+            res.redirect("/register");
+        }
+        else if(req.body.password != req.body.confirmPassword)
+        {
+            req.flash("error", "Error adding new user to the database. Please check that your password and confirm password fields match.");
+            res.redirect("/register");
+        }
+        else if(req.body.name.length > 20)
+        {
+            req.flash("error", "Error adding new user to the database. User names can be a maximum of 20 characters long.");
+            res.redirect("/register");
+        }
+        else if(req.body.name.length)
+        {
+            req.flash("error", "Error adding new user to the database. User names must be at least three characters long.");
+            res.redirect("/register");
+        }
+        else
+        {
+            req.flash("error", "Error adding new user to the database.");
+            res.redirect("/register");
+        }
     }
 });
 

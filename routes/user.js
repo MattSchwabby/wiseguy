@@ -272,10 +272,22 @@ router.get("/:id/pools", isLoggedIn, function(req, res)
         {
             req.flash("error", "Error retrieving pool information from the database");
             console.log("ERROR " + error);
+            res.redirect("back");
         }
         else
         {
-            res.render("pools/index", {pools: pools, currentUser: req.user});
+            User.findById(req.params.id, function(error, foundUser)
+            {
+                if(error)
+                {
+                    console.log("Error finding user when viewing a specific user's pools");
+                    console.log(error);
+                    req.flash("error", "Error retrieving user information from the database");
+                    res.redirect("back");
+                }
+                else
+                res.render("pools/index", {pools: pools, currentUser: req.user, targetUser: foundUser});
+            });
         }
     });
 });

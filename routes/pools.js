@@ -23,7 +23,7 @@ router.get("/", isLoggedIn, function(req, res)
         }
         else
         {
-            res.render("pools/index", {pools: pools, currentUser: req.user});
+            res.render("pools/index", {pools: pools, currentUser: req.user, targetUser: req.user});
         }
     });
 });
