@@ -51,8 +51,8 @@
                         <%
                         } %>
                         <div class="picks">
-                            Spread <input type="number" step="any" name="<%= score.gameID %>[spread]" value="<%=pick.spread%>" <%=readonly%>><br>
-                            Amount to win: $<input type="number" step="any" name="<%= score.gameID %>[toWin]" value="<%=pick.towin%>" <%=readonly%>><br>
+                            Spread <input class="numberInput" type="number" step="any" name="<%= score.gameID %>[spread]" value="<%=pick.spread%>" <%=readonly%>><br>
+                            Amount to win: $<input class="numberInput" type="number" step="any" name="<%= score.gameID %>[toWin]" value="<%=pick.towin%>" <%=readonly%>><br>
                         </div>
                     </fieldset>
                 </div>
@@ -76,8 +76,8 @@
                             <input type="radio" name="<%= score.gameID %>[winner]" value="<%= score.away %>" <%=disabled%>> <img class="homeIcon" src="http://i.nflcdn.com/static/site/7.4/img/teams/<%= score.away %>/<%= score.away %>_logo-80x90.gif"><br>
                         </div>
                         <div class="picks">
-                            Spread <input type="number" step="any" name="<%= score.gameID %>[spread]" value="0" <%=readonly%>><br>
-                            Amount to win: $<input type="number" step="any" name="<%= score.gameID %>[toWin]" value="0" <%=readonly%>><br>
+                            Spread <input class="numberInput" type="number" step="any" name="<%= score.gameID %>[spread]" value="0" <%=readonly%>><br>
+                            To win: $<input class="numberInput" type="number" step="any" name="<%= score.gameID %>[toWin]" value="0" <%=readonly%>><br>
                         </div>
                     </fieldset>
                 </div>
@@ -96,11 +96,11 @@
 <% }) %><!-- end for each pool -->
 </div> <!-- end row -->
 <div class="row">
-    <div class="col-xs-4 col-xs-offset-2">
-        <button id="pool-button" class="btn btn-primary" ><i class="icon-plus"></i>Submit</button>
+    <div class="col-xs-12">
+        <button  class="btn btn-primary" ><i class="icon-plus"></i>Submit</button>
     </div>
     </form>
-    <div class="col-xs-4">
+    <div class="col-xs-12">
         <form id="delete-form" action="/pools/<%= pool._id %>?_method=DELETE" method="POST">
         <button id="pool-button" class="btn btn-danger">Delete Pool</button>
     </div>
