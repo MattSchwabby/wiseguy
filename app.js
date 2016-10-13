@@ -56,7 +56,13 @@ setInterval(function() {
 
 
 app.set('port', (process.env.PORT || 8080));
-mongoose.connect("mongodb://localhost/pickem");
+
+//*************************
+// DATABASE CONNECTION
+//*************************
+
+mongoose.connect('mongodb://matt:404Oakrd@localhost:27017/pickem');
+
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(methodOverride("_method"));
 app.set("view engine", "ejs");
