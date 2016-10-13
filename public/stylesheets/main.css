@@ -303,6 +303,14 @@ input
   margin-right: 10px;
 }
 
+.comment
+{
+  margin: 0 auto;
+  max-width: 350px;
+  text-align: center;
+  float: none;
+}
+
 
 /*.bottom-button*/
 /*{*/
@@ -549,7 +557,12 @@ footer i
 
 @media(max-width: 430px)
 {
-  .home img
+
+}
+
+@media (max-width: 375px)
+{
+    .home img
   {
     max-width: 35px;
   }
@@ -559,14 +572,14 @@ footer i
     max-width: 35px;
   }
   
-  .pick img
+  .pickIcon
   {
     max-width: 25px;
   }
   
 }
 
-@media (max-width: 350px)
+@media (max-width: 325px)
 {
     #pool-button
   {
@@ -590,6 +603,11 @@ footer i
   {
     padding-left: 0;
     padding-right: 5px;
+  }
+  
+  .well .btn-success
+  {
+    font-size: 14px;
   }
 }
 

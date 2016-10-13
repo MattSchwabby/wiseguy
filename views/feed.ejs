@@ -28,7 +28,14 @@
                     <% var createdAt = String(feedObject.createdAt) %>
                     <%var createdAt = createdAt.substring(0, 15)%>
                     <p>Created on <%=createdAt%></p>
-                    <p><i class="icon-ok"></i> <%=feedObject.picks.length%> total picks</p>
+                    <% var numPicks = countPicks(feedObject.picks, function(returnedCount)
+                    {
+                        %>
+                        <p><i class="icon-ok"></i> <%=returnedCount%> total picks</p>
+                        <%
+                    })
+                    %>
+
                 </div>
             </div>
         </div>
@@ -40,7 +47,22 @@
     
 </div>
     
+<%
 
+function countPicks(picks, callback)
+{
+    var count = 0
+    picks.forEach(function(pick)
+    {
+        if(pick.winner)
+        {
+            count++
+        }
+    })
+    callback(count)
+}
+
+%>
 
 
 <% include partials/footer %>

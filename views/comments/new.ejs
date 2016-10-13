@@ -2,8 +2,8 @@
 
 <div class="container">
     <div class="row">
-        <h1 style="text-align: center;">Add a New Comment to <%= pool.name %> </h1>
-        <div style="width: 30%; margin: 65px auto;">
+        <h1>Add a New Comment to <%= pool.name %> </h1>
+        <div class="comment">
             <form action="/pools/<%= pool.id %>/comments" method="POST">
                 <div class="form-group">
                     <input class="form-control" type="text" name="comment[text]" placeholder="Enter your comment"></input>
