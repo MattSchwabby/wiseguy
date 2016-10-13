@@ -54,6 +54,8 @@ setInterval(function() {
 //   updateScore();
 // });
 
+
+app.set('port', (process.env.PORT || 8080));
 mongoose.connect("mongodb://localhost/pickem");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(methodOverride("_method"));
@@ -95,21 +97,25 @@ app.use("/feed", feedRoutes);
 app.use("/pools/:id/comments", commentRoutes);
 
 
-// Set up listener to dynamically detect deployment environment
-if(process.env.PORT && process.env.IP)
-{
-    app.listen(process.env.PORT, process.env.IP, function()
-    {
-        console.log("PICKEM SERVER IS LISTENING ON PORT " + process.env.PORT + " AND IP ADDRESS " + process.env.IP);
-    });
-}
-else
-{
-    // IP for my AWS instance
-    var PORT = "80";
-    var IP = "52.39.23.218";
-    app.listen(PORT, IP, function()
-    {
-        console.log("PICKEM SERVER IS LISTENING ON PORT " + PORT + " AND IP ADDRESS " + IP);
-    });
-}
+// UNCOMMENT BELOW CODE FOR CLOUD9 USAGE
+// if(process.env.PORT && process.env.IP)
+// {
+//     app.listen(process.env.PORT, process.env.IP, function()
+//     {
+//         console.log("PICKEM SERVER IS LISTENING ON PORT " + process.env.PORT + " AND IP ADDRESS " + process.env.IP);
+//     });
+// }
+// else
+// {
+//     // IP for my AWS instance
+//     var PORT = "80";
+//     var IP = "52.39.23.218";
+//     app.listen(app.get('port'), function()
+//     {
+//         console.log("PICKEM SERVER IS LISTENING ON PORT " + PORT + " AND IP ADDRESS " + IP);
+//     });
+// }
+
+app.listen(app.get('port'), function() {
+  console.log("Wiseguy is running at localhost:" + app.get('port'));
+})
