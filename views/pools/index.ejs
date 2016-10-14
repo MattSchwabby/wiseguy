@@ -42,10 +42,13 @@
                         <h4><%= pool.name %></h4>
                         <p><i class="icon-ok"></i><%= totalPicks %> total picks </p>
                         <%
+                        if(currentUser)
+                        {
                             if(String(pool.author.id) === String(currentUser.id))
                             { %>
                                 <p><i class="icon-dollar-1"></i> $<%= winTotal %> on the line </p>
                         <%  }
+                        }
                         %>
                         <% var createdAt = String(pool.createdAt) %>
                         <%var createdAt = createdAt.substring(0, 15)%>

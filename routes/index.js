@@ -18,12 +18,23 @@ router.get("/", function(req, res)
     {
         if(error)
         {
-            req.flash("error", "Error retrieving scores from the database");
-            console.log("ERROR " + error);
+            console.log("ERROR RETRIEVING LATEST SCORES FROM THE DATABASE WHEN RENDERING LANDING PAGE.");
+            console.log(error);
         }
         else
         {   
-            res.render("landing", {scores: scores});
+            Pool.find({},{}, { sort: {'updatedAt':-1}}).limit(7).exec(function(error, pools)
+            {
+                if(error)
+                {
+                    console.log("ERROR RETRIEVING POOLS WHEN RENDERING LANDING PAGE.");
+                    console.log(error);
+                }
+                else
+                {
+                    res.render("landing", {scores: scores, pools: pools});
+                }
+            });
         }
     });
 });

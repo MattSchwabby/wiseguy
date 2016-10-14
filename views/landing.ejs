@@ -18,22 +18,84 @@
             <br>
         </div>
     </div>
+
     <div class="row">
             <div class="col-xs-12">
                 <a href="/register"><p class="lead">Create an account to start picking games.</p></a>
-                <a class="btn btn-primary" href="/register">Click here to sign up</a>
+                <br>
+                <br>
+				<%
+				    if(!currentUser)
+				    { %>
+				        <a class="btn btn-primary" href="/register">Click here to sign up</a>
+			<%	    }
+				    else
+				    { %>
+				        <a class="btn btn-primary" href="/register">Click here to view your pools</a>
+			<% 	    }
+				
+				%>
+                
             </div>
         </div>
 </div>
-    <div>
-        <br>
-        <br>
-        <br>
-    </div>
+
+<!-- artificially add space between sections. You should be doing this in CSS instead. -->
+<div>
+    <br>
+    <br>
+    <br>
+</div>
     
-    <div class="text-left">
-        <legend class="lead pull-xs-left">Current scores</legend>
-    </div>
+<!-- Feed of latest user pools -->
+    
+<div>
+    <legend>Latest user pools</legend>
+    <%   
+    pools.forEach(function(feedObject)
+    {
+        %>
+        <a href="/pools/<%=feedObject._id%>">
+        <div class="row text-left">
+            <div class="col-lg-5 col-md-offset-4 col-md-6 col-sm-12 col-xs-12 text-center">
+                <div class="searchResultImgContainer center-block">
+                    <img src="<%=feedObject.author.image%>">
+                </div>
+                <div class="searchResult text-left">
+                    <p><%=feedObject.author.name%></p>
+                    <strong><p><%=feedObject.name%></p></strong>
+                    <% var createdAt = String(feedObject.createdAt) %>
+                    <%var createdAt = createdAt.substring(0, 15)%>
+                    <p>Created on <%=createdAt%></p>
+                    <% var numPicks = countPicks(feedObject.picks, function(returnedCount)
+                    {
+                        %>
+                        <p><i class="icon-ok"></i> <%=returnedCount%> total picks</p>
+                        <%
+                    })
+                    %>
+
+                </div>
+            </div>
+        </div>
+        </a>
+        <%
+    })
+    %>
+</div>
+
+<!-- artificially add space between sections. You should be doing this in CSS instead. -->
+<div>
+    <br>
+    <br>
+    <br>
+</div>
+
+<!-- Feed of latest scores -->
+    
+<div class="text-left">
+    <legend class="lead pull-xs-left">Current scores</legend>
+</div>
             
     <!--<div class="row text-center" style="display:flex; flex-wrap: wrap;">-->
     <div>
@@ -78,7 +140,26 @@
             }) %>
         </div>        
     </div> <!--- end current scores -->
-    <div class="col-sm-4 col-sm-offset-4">
-        <a href="/pools" class="btn btn-primary bottom-button" id="pool-button"><i class="icon-list"></i> View Pools</a>
-    </div>
+
+    
+    
+<%
+
+// Function to count number of picks on user stream. This should be refactored into a middleware.
+
+function countPicks(picks, callback)
+{
+    var count = 0
+    picks.forEach(function(pick)
+    {
+        if(pick.winner)
+        {
+            count++
+        }
+    })
+    callback(count)
+}
+
+%>
+    
 <% include partials/footer %>

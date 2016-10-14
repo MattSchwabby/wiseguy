@@ -11,7 +11,7 @@ var Comment = require("../models/comment");
 
 
 // SHOW USER SEARCH RESULTS
-router.get("/results/?query=matt", isLoggedIn, function(req, res)
+router.get("/results/?query=matt", function(req, res)
 {
     console.log("RECEIVED SEARCH REQUEST FOR QUERY ");
     console.lot(req.body);
@@ -41,14 +41,14 @@ router.get("/results/?query=matt", isLoggedIn, function(req, res)
 
 
 // SHOW USER SEARCH FORM
-router.get("/search", isLoggedIn, function(req, res)
+router.get("/search", function(req, res)
 {
     res.render("user/search", {currentUser: req.user});
 });
 
 
 // SHOW USER PROFILE
-router.get("/:id", isLoggedIn, function(req, res)
+router.get("/:id", function(req, res)
 {
     calculateUserStats(req.params.id, function(returnedUser)
     {
@@ -79,7 +79,7 @@ router.get("/:id", isLoggedIn, function(req, res)
 
 
 // SHOW USER FOLLOWING PAGE
-router.get("/:id/following", isLoggedIn, function(req, res)
+router.get("/:id/following", function(req, res)
 {
     User.findById(req.params.id, function(err, foundUser)
     {
@@ -111,7 +111,7 @@ router.get("/:id/following", isLoggedIn, function(req, res)
 
 
 // SHOW USER FOLLOWERS PAGE
-router.get("/:id/followers", isLoggedIn, function(req, res)
+router.get("/:id/followers", function(req, res)
 {
     User.findById(req.params.id, function(err, foundUser)
     {
@@ -144,7 +144,7 @@ router.get("/:id/followers", isLoggedIn, function(req, res)
 
 
 // SHOW EDIT USER PROFILE
-router.get("/:id/edit", isLoggedIn, function(req, res)
+router.get("/:id/edit", checkUserOwnership, function(req, res)
 {
 
     User.findById(req.user.id, function(error, foundUser)
@@ -264,7 +264,7 @@ router.post("/:id/unfollow", isLoggedIn, function(req, res)
 
 
 // A specific user's pools
-router.get("/:id/pools", isLoggedIn, function(req, res)
+router.get("/:id/pools", function(req, res)
 {
     // get the current user's pools from DB
     Pool.find({'author.id': req.params.id}, {}, { sort: { 'createdAt' : -1 } }).limit(30).exec(function(error, pools)

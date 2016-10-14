@@ -212,13 +212,17 @@ var winnings = calculateWinnings(pool, scores);
                     <p class="text-left"> <%= comment.text %>
                     </p>
                     <%
-                    if(String(comment.author.id) === String(currentUser.id))
-                    { %>
-                        <a class="btn btn-xs btn-warning pull-right" href="/pools/<%=pool._id%>/comments/<%=comment._id%>/edit">Edit</a>
-                        <form action="/pools/<%=pool._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
-                            <input id="delete-form"  type="submit" class="btn btn-xs btn-danger" value="Delete">
-                        </form>
-                <%  } %>
+                    if(currentUser)
+                    {
+                        if(String(comment.author.id) === String(currentUser.id))
+                        { %>
+                            <a class="btn btn-xs btn-warning pull-right" href="/pools/<%=pool._id%>/comments/<%=comment._id%>/edit">Edit</a>
+                            <form action="/pools/<%=pool._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
+                                <input id="delete-form"  type="submit" class="btn btn-xs btn-danger" value="Delete">
+                            </form>
+                    <%  }
+                    }
+                    %>
                         
                 </div>
             </div>
