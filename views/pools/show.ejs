@@ -152,12 +152,16 @@ var winnings = calculateWinnings(pool, scores);
                                         <br>
                                 <%  }
                                     if(pick.toWin)
-                                    { %>
-                                        <% if(String(pool.author.id) === String(currentUser.id))
-                                        { %>
-                                            <p>To win: $<%= pick.toWin %></p>
-                                    <%  } %>
-                                <%  }
+                                    { 
+                                        if(currentUser)
+                                        {
+                                            %>
+                                            <% if(String(pool.author.id) === String(currentUser.id))
+                                            { %>
+                                                <p>To win: $<%= pick.toWin %></p>
+                                        <%  } %>
+                                 <%   }
+                                  }
                                     else
                                     { %>
                                         <p> </p> <!-- fix bug where top row was pushing down elements below it too far. There should be a better way to fix this -->
