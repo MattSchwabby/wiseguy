@@ -126,6 +126,7 @@ button
 
 .scoreCard
 {
+  line-height: 10px;
   border: 1px solid #ddd;
   border-radius: 6px;
   padding-top: 20px;
@@ -141,13 +142,18 @@ button
 
 .scoreCard p
 {
-  padding-top: 10px;
+  padding-top: 5px;
 }
 
 .scoreCard img
 {
   width: 50px;
   border-radius: 6px;
+}
+
+.pickIcon
+{
+  padding-bottom: 5px;
 }
 
 .winning
