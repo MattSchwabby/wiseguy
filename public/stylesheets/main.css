@@ -419,7 +419,7 @@ footer i
 {
   .scoreCard
   {
-    margin-left: 35%;
+    margin-left:  35%;
     margin-right: 35%;
   }
 }
@@ -517,8 +517,18 @@ footer i
   
     .scoreCard
   {
-    margin-left: 15%;
-    margin-right: 15%;
+    /*margin-left: 15%;*/
+    /*margin-right: 15%;*/
+  }
+  
+  .home
+  {
+    padding-left: 15%;
+  }
+  
+  .away
+  {
+    padding-right: 15%;
   }
   
   .flash
@@ -547,7 +557,7 @@ footer i
   .scoreCard
   {
     margin-left: -15%;
-    margin-right: -20px;
+    margin-right: 0;
     padding-left: 0;
     padding-right: 0;
   }
@@ -557,12 +567,22 @@ footer i
 
 @media(max-width: 430px)
 {
-
+  .home
+  {
+    padding-left: 10px;
+  }
+  
+  .away
+  {
+    padding-right: 10px;
+  }
 }
 
 @media (max-width: 375px)
 {
-    .home img
+
+  
+  .home img
   {
     max-width: 35px;
   }
