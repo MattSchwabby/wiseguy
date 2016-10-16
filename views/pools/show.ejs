@@ -30,9 +30,10 @@ var winnings = calculateWinnings(pool, scores);
 
 
 <%if(toWin > 0)
-{ %>
+{ 
     if(currentUser)
     {
+        %>
         <% if(String(pool.author.id) === String(currentUser.id))
         { %>
     
