@@ -31,13 +31,15 @@ var winnings = calculateWinnings(pool, scores);
 
 <%if(toWin > 0)
 { %>
+    if(currentUser)
+    {
+        <% if(String(pool.author.id) === String(currentUser.id))
+        { %>
     
-    <% if(String(pool.author.id) === String(currentUser.id))
-    { %>
-
-        %>
-            <p class="lead"><i class="icon-dollar-1"></i> $<%=toWin%> on the line | $<%=winnings.money%> winnings </p>
-        <%
+            %>
+                <p class="lead"><i class="icon-dollar-1"></i> $<%=toWin%> on the line | $<%=winnings.money%> winnings </p>
+            <%
+        }
     }
  } %>
 <p class="lead"><i class="icon-ok"></i> <%=totalPicks%> total picks | <%=winnings.picks%> correct picks </p>
