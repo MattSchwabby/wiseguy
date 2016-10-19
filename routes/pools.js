@@ -66,36 +66,42 @@ router.post("/", isLoggedIn, function(req, res)
         {
             poolArray(req.body, function(parsedPool)
             {
-                pickChecker(parsedPool, function(response)
+                if(parsedPool)
                 {
-                    if(response)
+                    pickChecker(parsedPool, function(response)
                     {
-                        Pool.create(parsedPool, function(err, pool)
+                        if(response)
                         {
-                            if(err)
+                            Pool.create(parsedPool, function(err, pool)
                             {
-                                req.flash("error", "Error saving pool to the database");
-                                console.log("ERROR SAVING POOL TO DB.");
-                                console.log(err);
-                                res.redirect("back");
-                            }
-                            else
-                            {
-                                pool.author.id = req.user._id;
-                                pool.author.username = req.user.username;
-                                pool.author.name = req.user.name;
-                                pool.author.image = req.user.image;
-                                pool.games.push(scores);
-                                pool.save();
-                                console.log("NEW POOL ADDED TO THE DB");
-                            }
-                        });
-                    }
-                    else
-                    {
-                        req.flash("error", "You need to have at least one pick to create a pool");
-                    }
-                });
+                                if(err)
+                                {
+                                    req.flash("error", "Error saving pool to the database");
+                                    console.log("ERROR SAVING POOL TO DB.");
+                                    console.log(err);
+                                    res.redirect("back");
+                                }
+                                else
+                                {
+                                    pool.author.id = req.user._id;
+                                    pool.author.username = req.user.username;
+                                    pool.author.name = req.user.name;
+                                    pool.author.image = req.user.image;
+                                    pool.games.push(scores);
+                                    pool.save();
+                                    console.log("NEW POOL ADDED TO THE DB");
+                                }
+                            });
+                        }
+                        else
+                        {
+                        }
+                    });
+                }
+                else
+                {
+                    req.flash("error", "You need to have at least one pick to create a pool");
+                }
             });
             res.redirect("/pools");
         }
@@ -297,6 +303,7 @@ function poolArray(pool, cb)
 // function to ensure there is at least one pick in a pool
 function pickChecker(pool, callback)
 {
+    var response = false;
     pool.picks.forEach(function(pick)
     {
         if(String(pick.winner) === "undefined")
@@ -305,10 +312,10 @@ function pickChecker(pool, callback)
         }
         else
         {
-            callback(true);
+            response = true;
         }
     });
-    callback(false);
+    callback(response);
 }
 
 
