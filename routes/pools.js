@@ -60,44 +60,42 @@ router.post("/", isLoggedIn, function(req, res)
             req.flash("error", "Error creating pool");
             console.log("Error retrieving scores from DB before creating a new pool.");
             console.log(error);
-            res.redirect("/pools", {currentUser: req.user});
+            res.redirect("/pools");
         }
         else
         {
             poolArray(req.body, function(parsedPool)
             {
-                console.log("PARSED POOLS FROM POOLARRAY FUNCTION IS ");
-                console.log(parsedPool);
-                console.log("PARSED POOLS LENGTH IS");
-                console.log(parsedPool.length);
-                if(parsedPool)
+                pickChecker(parsedPool, function(response)
                 {
-                    Pool.create(parsedPool, function(err, pool)
+                    if(response)
                     {
-                        if(err)
+                        Pool.create(parsedPool, function(err, pool)
                         {
-                            req.flash("error", "Error saving pool to the database");
-                            console.log("ERROR SAVING POOL TO DB.");
-                            console.log(err);
-                            res.redirect("back");
-                        }
-                        else
-                        {
-                            pool.author.id = req.user._id;
-                            pool.author.username = req.user.username;
-                            pool.author.name = req.user.name;
-                            pool.author.image = req.user.image;
-                            pool.games.push(scores);
-                            pool.save();
-                            console.log("NEW POOL ADDED TO THE DB");
-                        }
-                    });
-                }
-                else
-                {
-                    req.flash("error", "Error saving pool to the database");
-                    res.redirect("back");
-                }
+                            if(err)
+                            {
+                                req.flash("error", "Error saving pool to the database");
+                                console.log("ERROR SAVING POOL TO DB.");
+                                console.log(err);
+                                res.redirect("back");
+                            }
+                            else
+                            {
+                                pool.author.id = req.user._id;
+                                pool.author.username = req.user.username;
+                                pool.author.name = req.user.name;
+                                pool.author.image = req.user.image;
+                                pool.games.push(scores);
+                                pool.save();
+                                console.log("NEW POOL ADDED TO THE DB");
+                            }
+                        });
+                    }
+                    else
+                    {
+                        req.flash("error", "You need to have at least one pick to create a pool");
+                    }
+                });
             });
             res.redirect("/pools");
         }
@@ -294,5 +292,25 @@ function poolArray(pool, cb)
 
     cb(picks);
 }
+
+
+// function to ensure there is at least one pick in a pool
+function pickChecker(pool, callback)
+{
+    pool.picks.forEach(function(pick)
+    {
+        if(String(pick.winner) === "undefined")
+        {
+            //do nothing
+        }
+        else
+        {
+            callback(true);
+        }
+    });
+    callback(false);
+}
+
+
 
 module.exports = router;

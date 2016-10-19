@@ -1,8 +1,9 @@
 <% include ../partials/header %>
 
 <h1><i class="icon-plus"></i> Edit a Pool</h1>
-<p class="lead">Pick who you think is going to win each game, and then set your spread and amount to win. <br> Each field is optional, so you don't need to pick every game, and you don't need to set a spread or amount to win.<br>Good luck!</p>
-
+<p class="lead">Pick who you think is going to win each game, and then set your spread and amount to win.</p>
+<p>If you have a spread, enter the value as it applies to your pick for the winner of the game. <br> For positive spreads, you don't need to enter a + sign. <br> Each field is optional, so you don't need to pick every game, and you don't need to set a spread or amount to win.<br>You cannot pick a game or change the pick of a game after scoring has started.<br><br>Good luck!</p>
+<p class="lead">New games are added on Wednesday morning each week.</p>
 
 <form action="/pools/<%=pool._id%>?_method=PUT" method="POST">
     <label class="lead control-label" id="poolName" for="name">Pool Name</label>
