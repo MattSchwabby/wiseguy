@@ -66,6 +66,10 @@ router.post("/", isLoggedIn, function(req, res)
         {
             poolArray(req.body, function(parsedPool)
             {
+                console.log("PARSED POOLS FROM POOLARRAY FUNCTION IS ");
+                console.log(parsedPool);
+                console.log("PARSED POOLS LENGTH IS");
+                console.log(parsedPool.length);
                 if(parsedPool)
                 {
                     Pool.create(parsedPool, function(err, pool)
