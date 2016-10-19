@@ -29,8 +29,8 @@ var commentRoutes       = require("./routes/comments"),
 // Schedule rule to update games in DB
 var weeklyRule = new schedule.RecurrenceRule();
 weeklyRule.dayOfWeek = 3;
-weeklyRule.hour = 1;
-weeklyRule.minute = 0;
+weeklyRule.hour = 7;
+weeklyRule.minute = 35;
  
  
 // Scheduled task to populate a new set of NFL scores each week
