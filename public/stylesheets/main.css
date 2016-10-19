@@ -445,8 +445,18 @@ footer i
 {
   .scoreCard
   {
-    margin-left:  35%;
-    margin-right: 35%;
+    /*margin-left:  35%;*/
+    /*margin-right: 35%;*/
+  }
+  
+  .home
+  {
+    padding-left: 15%;
+  }
+  
+  .away
+  {
+    padding-right: 15%;
   }
 }
 
